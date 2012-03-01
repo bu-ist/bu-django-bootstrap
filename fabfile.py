@@ -186,7 +186,7 @@ def compile_pyc():
     require('release')
     require('settings_file')
     require('server_owner')
-    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/%(release)s/%(project_name)s/manage.py compile_pyc --settings=%(settings_file)s --path=%(path)s/releases/%(release)s' % env)
+    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/%(release)s/manage.py compile_pyc --settings=%(settings_file)s --path=%(path)s/releases/%(release)s' % env)
 
 
 def install_requirements():
@@ -227,7 +227,7 @@ def loaddata(fixture):
     require('path')
     require('settings_file')
     require('server_owner')
-    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/current/%(project_name)s/manage.py loaddata %(fixture)s --settings=%(settings_file)s' % env)
+    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/current/manage.py loaddata %(fixture)s --settings=%(settings_file)s' % env)
 
 
 def symlink_current_release():
@@ -256,7 +256,7 @@ def migrate():
     "Update the database"
     require('path')
     require('settings_file')
-    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/current/%(project_name)s/manage.py migrate --settings=%(settings_file)s' % env)
+    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/current/manage.py migrate --settings=%(settings_file)s' % env)
 
 
 def sync():
@@ -264,14 +264,14 @@ def sync():
     require('path')
     require('settings_file')
     require('server_owner')
-    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/current/%(project_name)s/manage.py syncdb --settings=%(settings_file)s' % env)
+    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/current/manage.py syncdb --settings=%(settings_file)s' % env)
 
 
 def create_superuser():
     "Calls the django_extensions create_superuser command"
     require('path')
     require('settings_file')
-    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/current/%(project_name)s/manage.py createsuperuser --settings=%(settings_file)s' % env)
+    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/current/manage.py createsuperuser --settings=%(settings_file)s' % env)
 
 
 def get_afs_token():
@@ -282,12 +282,11 @@ def get_afs_token():
 
 def deploy_static():
     require('path')
-    require('project_name')
     require('settings_file')
     require('needs_afs_token_for_static')
     if env.needs_afs_token_for_static:
         get_afs_token()
-    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/current/%(project_name)s/manage.py collectstatic --noinput --settings=%(settings_file)s' % env)
+    run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/current/manage.py collectstatic --noinput --settings=%(settings_file)s' % env)
 
 
 def reload_app():

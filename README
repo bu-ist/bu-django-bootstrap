@@ -1,5 +1,12 @@
 This is the BU Django base project.
 
+QUICKSTART:
+
+  $ cd vagrant
+  $ vagrant up
+  
+  http://localhost:8080
+
 You can always download the latest from GitHub via:
 
   https://github.com/kgrinberg/bu-django-bootstrap/tarball/master

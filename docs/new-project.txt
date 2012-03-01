@@ -8,7 +8,7 @@ VM ENVIRONMENT
 =================
 
 This project template contains a complete VM environment that can be used
-for development.  This is facilitated using Oracle's VirtualBox and 'Vagrant'
+for development.  This is facilitated using Oracle's VirtualBox and Vagrant
 (which is really just a set of wrappers around Virtualbox).
 
 You can download Virtualbox and Vagrant here:
@@ -120,8 +120,9 @@ settings_local.py is a special case - it's evaluated at the end of settings.py
 (if it exists).  There's a .gitignore file distributed with this project
 bootstrap package that includes "settings_local.py" - the idea is that your
 local settings should NOT go in source control, while environment-specific
-settings SHOULD.  settings_local.py.sample shows a sample settings_local.py -
-just rename it if needed.
+settings SHOULD.
+
+settings_vagrant.py is what gets evaluated by the Vagrant WSGI script.
 
 Additionally, when modifying settings, be mindful of Python's sequence types -
 basically, remember that tuples are immutable.  (In most, though not all, cases
