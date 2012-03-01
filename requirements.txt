@@ -1,0 +1,14 @@
+# Use specific versions of high-risk apps;
+# latest and greatest of utilities
+
+# GENERALLY USEFUL/BASE FOR PROJECTS
+
+Django==1.3.1
+South==0.7.3
+Fabric==1.3.4
+django-sentry==1.13.5
+
+django-extensions
+django-debug-toolbar
+
+# PROJECT-SPECIFIC REQUIREMENTS

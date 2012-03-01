@@ -1,0 +1,6 @@
+<VirtualHost *:80>
+    WSGIScriptAlias / /var/apps/djangoapp/releases/current/apache/vagrant.wsgi
+    WSGIDaemonProcess djangoapp processes=<%= processorcount %>
+    WSGIProcessGroup djangoapp
+</VirtualHost>
+

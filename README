@@ -1,0 +1,31 @@
+This is the BU Django base project.
+
+You'll want to rename ``myproject`` to something more appropriate, as well as
+do a number of setup tasks - see /docs/new-project.txt for a checklist.
+
+As a general rule, make sure you've "exported" this project bootstrap rather
+than cloning the repo - basically, we want to make sure that you start a NEW
+project based on these defaults, and don't end up accidentally committing
+project-specific code back to this project bootstrap.
+
+If you checked it out from git, you'll want to do something like:
+
+$ git checkout-index --prefix=/home/projects/myproject/ -a
+
+...where "/home/projects/myproject/" is the path you want to export it to -
+basically the initial working copy of your project, except without the
+budjango repo.  Note: using "~" in the --prefix argument can have some
+weird side effects, so try to avoid it.
+
+Documentation is in /docs/, code in /myproject/
+
+docs/new-project.txt describes the first steps for a new project.
+
+Once you start your project, replace this file with project-specific
+documentation here and in /docs/, or specify where it can be found
+(SharePoint, Google Docs, etc. - precise links help).
+
+As you begin the project, take 5 minutes to review the Django coding style
+guide:
+
+  http://docs.djangoproject.com/en/dev/internals/contributing/#coding-style
