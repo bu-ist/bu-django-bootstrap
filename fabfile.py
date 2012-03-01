@@ -139,7 +139,7 @@ def setup_vagrant():
         local('; if ! [ -e %(path)s/venv ]; then mkdir venv; fi;' % env)
         local('; if ! [ -e %(path)s/venv/bin/python ]; then %(virtualenv_bin)s %(path)s/venv; fi;' % env)
     env.release = 'current'
-    local('%(path)s/venv/bin/python %(path)s/venv/bin/pip install -E %(path)s/venv --log=%(path)s/log/pip.log -r %(path)s/releases/%(release)s/requirements.txt' % env)
+    local('%(path)s/venv/bin/python %(path)s/venv/bin/pip install --log=%(path)s/log/pip.log -r %(path)s/releases/%(release)s/requirements.txt' % env)
     local('sudo apache2ctl restart')
 
 
@@ -194,7 +194,7 @@ def install_requirements():
     require('path')
     require('release')
     require('server_owner')
-    run_or_sudo('%(path)s/venv/bin/python %(path)s/venv/bin/pip install -E %(path)s/venv --log=%(path)s/log/pip.log -r %(path)s/releases/%(release)s/requirements.txt' % env)
+    run_or_sudo('%(path)s/venv/bin/python %(path)s/venv/bin/pip install --log=%(path)s/log/pip.log -r %(path)s/releases/%(release)s/requirements.txt' % env)
 
 
 def install_site():

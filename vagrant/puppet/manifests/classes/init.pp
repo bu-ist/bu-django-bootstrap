@@ -12,7 +12,7 @@ class init {
         command => '/usr/bin/apt-get update'
     }
     
-    # sudoers
+    # sudoers, .profile
     append_if_no_such_line {
         sudoers:
             file => "/etc/sudoers",
@@ -22,5 +22,4 @@ class init {
             file => "/home/vagrant/.profile",
             line => "if [ -e /var/apps/djangoapp/venv/bin/activate ]; then source /var/apps/djangoapp/venv/bin/activate; fi;";
     }
-    
 }

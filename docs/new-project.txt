@@ -15,12 +15,21 @@ You can download Virtualbox and Vagrant here:
 
   http://vagrantup.com/docs/getting-started/
 
-Then, cd into the 'vagrant' directory of this documentation and run:
+Then, cd into the 'vagrant' directory of this documentation and run::
 
     $ vagrant up
 
 This will bootstrap the VM and install this project template into it.  It will
-also create the virtualenv and install the requirements.
+also create the virtualenv and install the requirements.  From this point on,
+you can ssh to the VM by running::
+
+    $ vagrant ssh
+
+This will put you into a shell on the VM, already in the new virtualenv.
+
+Your app is in ``/var/apps/djangoapp/releases/current``
+
+To see your app, go to http://localhost:8080
 
 If you're developing locally, you can also create a virtualenv and install
 the basic dependencies (pip, etc) yourself.
@@ -45,6 +54,17 @@ PROJECT FOLDER
 Rename the project folder from 'myproject' to the project name.
 Try to use a valid Python module identifier - so basically a-z and "_".
 
+This project template contains references to ``myproject`` in a few places
+that you'll want to replace with your own module name.  These are:
+
+/apache/vagrant.wsgi
+fabfile.py
+manage.py
+myproject/settings_* (paths)
+
+***TODO***: Django 1.4's project template should make this easier to
+manage in one step.
+
 
 =================
 APP NAME
@@ -67,13 +87,20 @@ of template directory layout).
 REQUIREMENTS
 =================
 
-(Be sure you're in your virtualenv for this).  Install the default
-requirements by running the following from the project root::
+The ``requirements.txt`` file lists packages (generally with specific versions)
+that are required for your app.
+
+The bootstrap automatically installs ``requirements.txt`` on setup.  For
+reference, it runs this command::
 
   (venv)$ pip install -r requirements.txt
 
-As you add library code, you can add it to your requirements.txt file
-to make sure it's installed during any new deployment.
+As you add dependencies, you can add then to your requirements.txt file
+to make sure they're installed during any new deployment.
+
+You can also experiment by installing dependencies manually::
+
+  (venv)$ pip install <some_package>
 
 
 =================

@@ -49,9 +49,19 @@ class custom {
             target => '/app';
     }
     
+    # initialize app
     exec { '/usr/local/bin/fab vagrant setup_vagrant':
         cwd => '/var/apps/djangoapp/releases/current',
         user => 'vagrant',
         group => 'www-data'
     }
+    
+    # startup dir
+    append_if_no_such_line {
+        startup_dir:
+            file => "/home/vagrant/.profile",
+            line => "if [ -e /var/apps/djangoapp/releases/current ]; then cd /var/apps/djangoapp/releases/current; fi;";
+    }
+    
+
 }
