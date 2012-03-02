@@ -53,7 +53,9 @@ class custom {
     exec { '/usr/local/bin/fab vagrant setup_vagrant':
         cwd => '/var/apps/djangoapp/releases/current',
         user => 'vagrant',
-        group => 'www-data'
+        group => 'www-data',
+        # this might take a while, since it's installing packages - disable timeout
+        timeout => 0
     }
     
     # startup dir
