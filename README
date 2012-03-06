@@ -2,6 +2,8 @@ This is the BU Django base project.
 
 QUICKSTART:
 
+  Install Vagrant from http://vagrantup.com
+
   $ cd vagrant
   $ vagrant up
   
