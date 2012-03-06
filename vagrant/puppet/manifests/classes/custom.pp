@@ -54,6 +54,7 @@ class custom {
         cwd => '/var/apps/djangoapp/releases/current',
         user => 'vagrant',
         group => 'www-data',
+        logoutput => true,
         # this might take a while, since it's installing packages - disable timeout
         timeout => 0
     }
