@@ -11,7 +11,7 @@ QUICKSTART:
 
 You can always download the latest from GitHub via:
 
-  https://github.com/kgrinberg/bu-django-bootstrap/tarball/master
+  https://github.com/bu-ist/bu-django-bootstrap/tarball/master
 
 You'll want to rename ``myproject`` to something more appropriate, as well as
 do a number of setup tasks - see /docs/new-project.txt for a checklist.
