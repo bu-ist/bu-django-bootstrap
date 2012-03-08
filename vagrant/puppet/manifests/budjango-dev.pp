@@ -7,7 +7,8 @@ class dev {
         init: before => Class[python];
         python: before => Class[mysql];
         mysql: before => Class[apache];
-        apache: before => Class[custom];
+        apache: before => Class[client];
+        client: before => Class[custom];
         custom: ;
     }
 }
