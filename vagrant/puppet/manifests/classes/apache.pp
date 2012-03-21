@@ -3,9 +3,9 @@
 class apache {
     package {
         "apache2-mpm-worker":
-            ensure => "2.2.14-5ubuntu8.8";
+            ensure => present;
         "libapache2-mod-wsgi":
-            ensure => "2.8-2ubuntu1";
+            ensure => present;
     }
 
     service { "apache2":
