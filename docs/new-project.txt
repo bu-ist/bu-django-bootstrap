@@ -56,9 +56,9 @@ PROJECT SETUP
 
 To create a new project, use the following commands:
 
-  $ django-admin.py startproject <myproject> --template=./project_template/ repo
-  $ cd repo
-  $ django-admin.py startapp <myapp> --template=../app_template/
+      $ django-admin.py startproject <myproject> --template=./project_template/ repo
+      $ cd repo
+      $ django-admin.py startapp <myapp> --template=../app_template/
 
 You'll of course want to use something more identifiable for ``myproject``
 and ``myapp`` - they should be valid Python module names (so basically a-z and "_").
@@ -71,8 +71,8 @@ Note that ``repo`` is where you'll put your code (it'll be prepopulated with
 the base project scaffolding).  ``repo`` is where you should initialize your
 git repository, since we don't want the bootstrap templates mixed in there.
 
-  $ cd repo
-  $ git init
+      $ cd repo
+      $ git init
 
 If you followed the steps above correctly, you should have a ``repo`` directory
 with an application scaffold.  Everything should be named based on what you put
@@ -178,7 +178,6 @@ on a case-by-case basis.  Uncomment it if you need it, leave it alone if you
 don't.  For more information, see the section on Context Processors in:
 
   http://docs.djangoproject.com/en/1.4/ref/templates/api/
-
 
 EMAIL - Most projects probably don't need email, other than for error reporting
 (which should be handled elsewhere).  If you do, you can plug the SMTP settings
@@ -299,7 +298,7 @@ sure that:
   * ``django.contrib.admin`` is in your ``INSTALLED_APPS``
   * The URLconf is set up
   * Your app has an admin.py with model admin registrations as documented in:
-    http://docs.djangoproject.com/en/dev/ref/contrib/admin/
+    http://docs.djangoproject.com/en/1.4/ref/contrib/admin/
 
 
 =================
@@ -338,7 +337,7 @@ in your ``INSTALLED_APPS``, it'll ask if you want to create a superuser.
 Remember that you can always do that with the ``createsuperuser`` management
 command:
 
-  $ python manage.py createsuperuser
+    $ python manage.py createsuperuser
 
 ***South*** is a tool used to manage schema and data migrations.  Roughly
 speaking, any operation you put in a SQL script, you'd put in South.  In most
@@ -349,11 +348,11 @@ files - it's a relatively straightforward DSL).
 To get your app hooked into South (and therefore exempt from ``syncdb``),
 just do this after you've created your models in ``models.py``:
 
-  $ python manage.py schemamigration [my_app] --initial
+    $ python manage.py schemamigration [my_app] --initial
 
 That'll create the initial migration, which you then need to run as follows:
 
-  $ python manage.py migrate
+    $ python manage.py migrate
 
 Beyond that, there's an excellent tutorial on South, which I won't bother
 reproducing here:
