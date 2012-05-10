@@ -14,5 +14,5 @@ from settings import *
 #     }
 # }
 
-# STATIC_ROOT = '/apps/myproject-devl/apache/static/'
-# STATIC_URL = '/myproject/static/'
+# STATIC_ROOT = '/apps/{{ project_name }}-devl/apache/static/'
+# STATIC_URL = '/{{ project_name }}/static/'

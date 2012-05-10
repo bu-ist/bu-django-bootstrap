@@ -1,6 +1,6 @@
 from settings import *
 
-# Put any settings overrides for the local Vagrant environment here
+# Put any settings overrides for the TEST environment here
 # (Database, Paths, etc.)
 
 # DATABASES = {
@@ -14,11 +14,5 @@ from settings import *
 #     }
 # }
 
-
-DEBUG = True
-SERVE_STATIC = True
-
-# since DEBUG and SERVE_STATIC are True, static content will be served by Django's
-# staticfiles view anyway, so don't bother with STATIC_ROOT
-STATIC_ROOT = ''
-STATIC_URL = '/static/'
+# STATIC_ROOT = '/apps/{{ project_name }}-test/apache/static/'
+# STATIC_URL = '/{{ project_name }}/static/'

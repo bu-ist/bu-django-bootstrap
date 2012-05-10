@@ -1,0 +1,7 @@
+This is where application-specific static files should go.
+
+See documentation for django.contrib.staticfiles:
+
+    https://docs.djangoproject.com/en/1.4/howto/static-files/
+
+(Feel free to delete this README.)

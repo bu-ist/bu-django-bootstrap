@@ -3,18 +3,11 @@ from fabric.colors import cyan
 import sys
 import time
 
-# Configuration: set up your project and environment locations below;
-# change instances of 'myproject' to your project's name.
-# This process assumes git, but can be modified to use SVN.
-
-# common settings - can be overridden per-environment
-env.project_name = 'myproject' # name of project module in root of repo
-env.gitsource = '/afs/.bu.edu/cwis/content/git/myproject.git' # full path (filesystem or git: to .git repo)
-env.server_owner = 'myproject-svc'
-env.needs_afs_token_for_repo = True # is the repo in AFS?
-env.needs_afs_token_for_static = False # is the static content being deployed to AFS?
-env.use_syncdb = True # do you want to run 'syncdb' on deploy?
-env.use_migrations = True # do you want to run 'migrate' on deploy?
+# This is BU's Fabric library.
+# It has generic deploy/setup tasks, including some optional handling
+# for AFS (both in terms of SCM locations and static media).
+# It should ultimately be an independent package, though currently it's
+# distributed with the BU Django Bootstrap package.
 
 # these settings generally don't need to be changed
 env.server_group = 'apache'
@@ -22,49 +15,6 @@ env.wsgi_script = 'app.wsgi'
 env.gettoken_script = 'gettoken'
 env.shell = 'ORACLE_HOME=/usr/local/oracle/product/11.2.0 LD_LIBRARY_PATH=/usr/local/oracle/product/11.2.0/lib /bin/bash --noprofile -l -c' # avoid looking for .bash_profile, etc.
 env.virtualenv_bin = '/usr/bin/virtualenv-2.6'
-
-# Deployment Environments
-
-def vagrant():
-    env.virtualenv_bin = '/usr/local/bin/virtualenv'
-    env.shell = '/bin/bash'
-    # path on disk
-    env.path = '/var/apps/djangoapp'
-    # settings module to use for this environment - typically projectname.settings_[env]
-    env.settings_file = env.project_name + '.settings'
-
-
-def devl():
-    # host or hosts for this environment
-    env.hosts = ['vsc64.bu.edu']
-    # path on disk
-    env.path = '/apps/myproject-devl'
-    # path to repo - typically env.path + '/repo'
-    env.gitpath = env.path + '/repo'
-    # settings module to use for this environment - typically projectname.settings_[env]
-    env.settings_file = env.project_name + '.settings_devl'
-
-
-def test():
-    # host or hosts for this environment
-    env.hosts = ['vsc66.bu.edu', 'vsc67.bu.edu']
-    # path on disk
-    env.path = '/apps/myproject-test'
-    # path to repo - typically env.path + '/repo'
-    env.gitpath = env.path + '/repo'
-    # settings module to use for this environment - typically projectname.settings_[env]
-    env.settings_file = env.project_name + '.settings_test'
-
-
-def prod():
-    # host or hosts for this environment
-    env.hosts = ['vsc68.bu.edu', 'vsc69.bu.edu']
-    # path on disk
-    env.path = '/apps/myproject-prod'
-    # path to repo - typically env.path + '/repo'
-    env.gitpath = env.path + '/repo'
-    # settings module to use for this environment - typically projectname.settings_[env]
-    env.settings_file = env.project_name + '.settings_prod'
 
 
 # Commands - you shouldn't need to alter these unless you need to change how the app is deployed
@@ -80,8 +30,7 @@ def deploy():
     update_from_git()
     install_site()
     install_requirements()
-    # depends on newer django-extensions
-    # this is just an optimization, so don't blow up if there's a problem
+    # this is an optimization that depends on having django-extensions installed - so don't blow up if there's a problem
     try:
         compile_pyc()
     except:
@@ -108,7 +57,7 @@ def setup():
     
     with cd(env.path):
         run_or_sudo('; if ! [ -e %(path)s/releases ]; then mkdir releases; fi;' % env)
-
+    
     if env.needs_afs_token_for_repo:
         get_afs_token()
     
@@ -139,12 +88,13 @@ def setup_vagrant():
         local('; if ! [ -e %(path)s/venv ]; then mkdir venv; fi;' % env)
         local('; if ! [ -e %(path)s/venv/bin/python ]; then %(virtualenv_bin)s %(path)s/venv; fi;' % env)
     env.release = 'current'
-    local('%(path)s/venv/bin/python %(path)s/venv/bin/pip install --use-mirrors --log=%(path)s/log/pip.log -r %(path)s/releases/%(release)s/requirements.txt' % env)
+    # note that this points to the project template, NOT the current release
+    local('%(path)s/venv/bin/python %(path)s/venv/bin/pip install --use-mirrors --log=%(path)s/log/pip.log -r /app/project_template/requirements.txt' % env)
     local('sudo apache2ctl restart')
 
 
 def setup_git_repo():
-    "First checkout of repo - check if it exists first (so that the method is idempotent"
+    "First checkout of repo - check if it exists first (so that the method is idempotent)"
     require('gitpath')
     require('gitsource')
     require('needs_afs_token_for_repo')
@@ -303,3 +253,4 @@ def run_or_sudo(cmd):
          run(cmd % env)
     else:
         sudo(cmd, user=env.server_owner)
+

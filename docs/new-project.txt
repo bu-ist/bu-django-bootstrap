@@ -20,14 +20,16 @@ Then, cd into the 'vagrant' directory of this documentation and run::
     $ vagrant up
 
 This will bootstrap the VM and install this project template into it.  It will
-also create the virtualenv and install the requirements.  From this point on,
-you can ssh to the VM by running::
+also create the virtualenv and install the requirements.  (This first run will
+probably take a few minutes; subsequent restarts should be much faster).
+
+From this point on, you can ssh to the VM by running::
 
     $ vagrant ssh
 
 This will put you into a shell on the VM, already in the new virtualenv.
 
-Your app is in ``/var/apps/djangoapp/releases/current``
+Your app is in ``/app``.
 
 To see your app, go to http://localhost:8080
 
@@ -35,7 +37,8 @@ If you're developing locally, you can also create a virtualenv and install
 the basic dependencies (pip, etc) yourself.
 
 All command-line examples in this document assume you're working in your
-virtualenv for this project (i.e. you've done ``$ WORKON [myproject]`` )
+virtualenv for this project (i.e. you've done ``$ WORKON [myproject]``, which
+happens for you automatically in the VM.)
 
 
 =================
@@ -48,39 +51,44 @@ can specify these as necessary in the settings files (see below).
 
 
 =================
-PROJECT FOLDER
+PROJECT SETUP
 =================
 
-Rename the project folder from 'myproject' to the project name.
-Try to use a valid Python module identifier - so basically a-z and "_".
+To create a new project, use the following commands:
 
-This project template contains references to ``myproject`` in a few places
-that you'll want to replace with your own module name.  These are:
+  $ django-admin.py startproject <myproject> --template=./project_template/ repo
+  $ cd repo
+  $ django-admin.py startapp <myapp> --template=../app_template/
 
-/apache/vagrant.wsgi
-fabfile.py
-manage.py
-myproject/settings_* (paths)
+You'll of course want to use something more identifiable for ``myproject``
+and ``myapp`` - they should be valid Python module names (so basically a-z and "_").
 
-***TODO***: Django 1.4's project template should make this easier to
-manage in one step.
+How are "projects" and "apps" different?  Roughly speaking, an app is a cohesive
+unit of functionality, ideally reusable across multiple projects.  In practice,
+this works to varying degrees, but we ought to at least try to preserve the distinction.
+
+Note that ``repo`` is where you'll put your code (it'll be prepopulated with
+the base project scaffolding).  ``repo`` is where you should initialize your
+git repository, since we don't want the bootstrap templates mixed in there.
+
+  $ cd repo
+  $ git init
+
+If you followed the steps above correctly, you should have a ``repo`` directory
+with an application scaffold.  Everything should be named based on what you put
+for <myproject> and <myapp> for the ``startproject`` and ``startapp`` commands.
+
+The one change you'll need to make manually is edit the file ``/apache/vagrant.wsgi``
+and replace ``myproject`` with your project name.
 
 
 =================
-APP NAME
+REPOSITORY
 =================
 
-Similarly to the project name above, you'll want name your ***app*** something
-unique and Python-friendly.  Your app is located in your project root.  So what
-**is** an app and how is it different from a project?
-
-Roughly speaking, an app is a cohesive unit of functionality, ideally reusable
-across multiple projects.  In practice, this works to varying degrees, but
-we ought to at least try to preserve the distinction.  The app that comes with
-this guide is called ``my_app`` - be sure to change this!  Note that you'll
-need to change this in two places - ``my_app`` and 
-``my_app/templates/my_app`` (see ``TEMPLATE_DIRS`` below for a discussion
-of template directory layout).
+As noted above, you should initialize your repository in ``repo``, thereby
+excluding unnecessary boilerplate.  Once you've initialized your repository
+via **git init**, you can set up your remotes and push it to e.g. GitHub.
 
 
 =================
@@ -101,6 +109,15 @@ to make sure they're installed during any new deployment.
 You can also experiment by installing dependencies manually::
 
   (venv)$ pip install <some_package>
+
+
+=================
+README
+=================
+
+A short Markdown-formatted README will be created along with your project.
+Fill it out with as much detail as reasonable.  At a minimum, include
+pointers to the application and code, as well as any responsible individuals.
 
 
 =================
@@ -150,11 +167,6 @@ them project-wide rather than per-environment.
 there is a 500 error.  Should be set to () for most projects (default), since
 error reporting should happen elsewhere.
 
-***ROOT_URLCONF*** - this tells Django where to look for the URLconf for your
-project; its default is 'myproject.urls', but since you've changed your project
-name as instructed above in **PROJECT FOLDER** (right?), you'll want to update
-this to reflect the new project name.
-
 ***TEMPLATE_CONTEXT_PROCESSORS*** - this tells Django which context processors
 should be enabled.  Certain pluggable apps require you to add their context
 processor to the list.  Note that ``django.core.context_processors.request``
@@ -165,15 +177,7 @@ potential performance and security considerations which need to be considered
 on a case-by-case basis.  Uncomment it if you need it, leave it alone if you
 don't.  For more information, see the section on Context Processors in:
 
-  http://docs.djangoproject.com/en/1.3/ref/templates/api/
-
-
-***SECRET_KEY*** - this is important (though less critical than one might imagine,
-since it's just a random seed for hashes, and not an encryption key or
-anything).  Conveniently, there's a command bundled with django-extensions
-that lets you generate a new one from the command line::
-
-  $ python manage.py generate_secret_key
+  http://docs.djangoproject.com/en/1.4/ref/templates/api/
 
 
 EMAIL - Most projects probably don't need email, other than for error reporting
@@ -217,7 +221,7 @@ that override the app's templates there (i.e. project/templates/admin/).
 either match the URL path of your project or be parent of that path.
 Generally you'll want it to be relatively restrictive, to avoid leaking the
 sessionid to other applications hosted at BU.  For more on sessions, see:
-https://docs.djangoproject.com/en/1.3/topics/http/sessions/
+https://docs.djangoproject.com/en/1.4/topics/http/sessions/
 
 Note that if you develop locally with runserver, you'll want to override
 this in your settings_local.py (since runserver will usually need a cookie
@@ -241,7 +245,7 @@ be configured to be served directly by Apache (rather than mod_wsgi).  By
 default, ``collectstatic`` will look in the ``static`` directory for every
 app (e.g. ``my_app/static/``).
 
-See http://docs.djangoproject.com/en/dev/howto/static-files/ for more details.
+See http://docs.djangoproject.com/en/1.4/howto/static-files/ for more details.
 
 ***MEDIA_ROOT***
 ***MEDIA_URL***
@@ -259,7 +263,7 @@ shared storage.
 settings_local
 =================
 
-As noted above, you'll want to override some specific settings for local
+As noted above, you may want to override some specific settings for local
 development.  These can be anything, but in almost all cases you'll want
 to override at least the following:
 
@@ -274,6 +278,14 @@ True, set DATABASES to point to your local or development database, and set
 STATIC_ROOT and MEDIA_ROOT to point to your project's static content area
 and user-uploaded files area, respectively (the latter should be outside
 of or excluded from source control).
+
+If you're using the Vagrant VM, you can make these changes in ``settings_vagrant``;
+otherwise, you can create a ``settings_local``.  Note that there's a slight
+difference in how the two are processed - ``settings_vagrant`` is similar
+to the dev/test/prod variants, which first import the base settings
+and then provide overrides.  ``settings_local`` relies on being imported
+*by* settings.py (at the end).  So in theory, you can mix and match both,
+though this isn't recommended.
 
 
 =================
@@ -298,21 +310,9 @@ Depending on the needs of the project, you will either use Django auth,
 or Weblogin.  For the former, you can make use of the handy management
 command ``createsuperuser`` (or just run ``syncdb`` for the first time).
 
-For the latter (Weblogin), you'll need to decide whether you want it handled
-by Apache or Django.  The Apache way is (currently) somewhat easier; there's
-some Apache configuration involved that needs to happen at deployment time,
-but at the end of the day Apache just sets REMOTE_USER, which is then used
-by Django for authorization.  If you want to use this method, follow the
-instructions here:
-  
-  http://docs.djangoproject.com/en/dev/howto/auth-remote-user/
+For the latter - Weblogin via CAS - consult the django-bu-cas app:
 
-The other way, which is to have Django actually use Weblogin as an auth
-backend, is doable but needs further discussion.
-
-Either way, it's possible to configure Django to use multiple auth backends,
-which may be desirable in order to do local development with the "regular"
-auth database and deploy to production using Weblogin.
+    https://github.com/bu-ist/django-bu-cas
 
 
 ==================================
@@ -385,14 +385,19 @@ This default project provides *basic* templates, which you should customize
 as per the needs of each particular project.  If you need to customize the
 error views themselves, take a look at:
 
-http://docs.djangoproject.com/en/dev/topics/http/views/#customizing-error-views
+http://docs.djangoproject.com/en/1.4/topics/http/views/#customizing-error-views
 
 
 ==================================
 Django Debug Toolbar
 ==================================
 
-***TODO***
+The Debug Toolbar is an excellent aid during development.  It is installed by
+default, but disabled (it has no performance impact).  To enable it, uncomment
+``debug_toolbar.middleware.DebugToolbarMiddleware`` in ``MIDDLEWARE_CLASSES``.
+
+If you're using the Vagrant VM, you'll need to set add your host's IP to your
+local ``INTERNAL_IPS`` setting.
 
 
 ==================================
@@ -406,15 +411,18 @@ The syntax is generally something like:
 
     $ fab <environment> <command>
 
+You can use the "-u" flag to pass along your username (since for convenience,
+you're logged into the VM as the *vagrant* user).
+
 At project initialization, you should set up your basic settings in the
 fabfile.py.  You can bootstrap an initial environment (after Systems sets up
 their end of things) with:
 
-    (venv)$ fab devl setup
+    (venv)$ fab -u <username> devl setup
 
 Deployment is:
 
-    (venv)$ fab devl deploy
+    (venv)$ fab -u <username> devl deploy
 
 ***TODO***
 

@@ -1,0 +1,8 @@
+- Make fablib an independent package
+
+- Make WSGI not need myproject.settings_vagrant
+
+- set envvar so we don't need --settings=myproject.settings_vagrant for management commands (or do we?)
+
+- fab deploy should take a <ref> argument
+

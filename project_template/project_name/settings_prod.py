@@ -1,6 +1,6 @@
 from settings import *
 
-# Put any settings overrides for the TEST environment here
+# Put any settings overrides for the PROD environment here
 # (Database, Paths, etc.)
 
 # DATABASES = {
@@ -14,5 +14,5 @@ from settings import *
 #     }
 # }
 
-# STATIC_ROOT = '/apps/myproject-test/apache/static/'
-# STATIC_URL = '/myproject/static/'
+# STATIC_ROOT = '/apps/{{ project_name }}-prod/apache/static/'
+# STATIC_URL = '/{{ project_name }}/static/'
