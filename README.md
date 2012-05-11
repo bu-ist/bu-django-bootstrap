@@ -17,6 +17,9 @@ You can always download the latest from GitHub via:
 
     https://github.com/bu-ist/bu-django-bootstrap/tarball/master
 
+Note that you should DOWNLOAD, not clone, this - unless you actually need
+to make changes to the base project.
+
 To start a new project, do:
 
     $ django-admin.py startproject <myproject> --template=./project_template/ repo
