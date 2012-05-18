@@ -83,10 +83,10 @@ def setup():
 def setup_vagrant():
     "Set up virtualenv and requirements for Vagrant dev environment"
     require('path')
-    require('virtualenv_bin')
     with lcd(env.path):
         local('; if ! [ -e %(path)s/venv ]; then mkdir venv; fi;' % env)
-        local('; if ! [ -e %(path)s/venv/bin/python ]; then %(virtualenv_bin)s %(path)s/venv; fi;' % env)
+        # note that we're not using 'virtualenv_bin', because that path is specific to BU
+        local('; if ! [ -e %(path)s/venv/bin/python ]; then /usr/local/bin/virtualenv %(path)s/venv; fi;' % env)
     env.release = 'current'
     # note that this points to the project template, NOT the current release
     local('%(path)s/venv/bin/python %(path)s/venv/bin/pip install --use-mirrors --log=%(path)s/log/pip.log -r /app/project_template/requirements.txt' % env)
