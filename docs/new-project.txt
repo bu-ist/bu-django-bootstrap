@@ -55,7 +55,8 @@ PROJECT SETUP
 =================
 
 To create a new project, use the following commands:
-
+      
+      $ mkdir repo
       $ django-admin.py startproject <myproject> --template=./project_template/ repo
       $ cd repo
       $ django-admin.py startapp <myapp> --template=../app_template/

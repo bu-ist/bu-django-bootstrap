@@ -25,6 +25,7 @@ Install Vagrant from http://vagrantup.com
 
 To start a new project, do:
 
+    (venv)$ mkdir repo
     (venv)$ django-admin.py startproject <myproject> --template=./project_template/ repo
     (venv)$ cd repo
     (venv)$ django-admin.py startapp <myapp> --template=../app_template/
