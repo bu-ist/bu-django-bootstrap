@@ -17,7 +17,9 @@ Download and expand the tarball: https://github.com/bu-ist/bu-django-bootstrap/t
 
 If you prefer ZIP: https://github.com/bu-ist/bu-django-bootstrap/zipball/master
 
-Install Vagrant from http://vagrantup.com
+If you don't already have it, install Oracle VirtualBox from https://www.virtualbox.org/wiki/Downloads
+
+If you don't already have it, install Vagrant from http://vagrantup.com
 
     $ cd vagrant
     $ vagrant up
