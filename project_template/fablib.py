@@ -30,6 +30,7 @@ def deploy():
     update_from_git()
     install_site()
     install_requirements()
+    copy_settings()
     # this is an optimization that depends on having django-extensions installed - so don't blow up if there's a problem
     try:
         compile_pyc()
@@ -77,6 +78,7 @@ def setup():
     env.release = time.strftime('%Y%m%d%H%M%S')
     update_from_git()
     install_site()
+    copy_settings()
     install_requirements()
 
 
@@ -239,6 +241,21 @@ def deploy_static():
     run_or_sudo('%(path)s/venv/bin/python %(path)s/releases/current/manage.py collectstatic --noinput --settings=%(settings_file)s' % env)
 
 
+def copy_settings():
+    """
+    Copy the environment-appropriate settings file to the deployment target.
+    TODO: this should be incorporated into the standard deployment script,
+    possibly in a modified form.
+    """
+    require('path')
+    require('settings_file')
+    require('release')
+    require('project_name')
+    opts = env
+    opts.update({ 'env_settings_file': env.settings_file.split('.')[1] + '.py' })
+    run_or_sudo('cp %(path)s/settings/%(env_settings_file)s %(path)s/releases/%(release)s/%(project_name)s' % opts)
+
+
 def reload_app():
     """Reload application code without restarting the web server"""
     require('path')
@@ -253,4 +270,3 @@ def run_or_sudo(cmd):
          run(cmd % env)
     else:
         sudo(cmd, user=env.server_owner)
-

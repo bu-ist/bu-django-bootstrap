@@ -13,6 +13,7 @@ from fablib import *
 env.project_name = '{{ project_name }}' # name of project module in root of repo
 env.gitsource = '/afs/.bu.edu/cwis/content/git/{{ project_name }}.git' # full path (filesystem or git: to .git repo)
 env.server_owner = '{{ project_name }}-svc'
+env.copy_settings = True
 env.needs_afs_token_for_repo = True # is the repo in AFS?
 env.needs_afs_token_for_static = False # is the static content being deployed to AFS?
 env.use_syncdb = True # do you want to run 'syncdb' on deploy?
