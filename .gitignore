@@ -3,5 +3,4 @@
 settings_local.py
 pip-log.txt
 .vagrant
-# ignore the repo they create
-repo
+vagrant/puppet/manifest/build/

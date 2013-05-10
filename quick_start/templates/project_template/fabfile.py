@@ -10,25 +10,14 @@ from fablib import *
 # This process assumes git, but can be modified to use SVN.
 
 # common settings - can be overridden per-environment
-env.project_name = '{{ project_name }}' # name of project module in root of repo
-env.gitsource = '/afs/.bu.edu/cwis/content/git/{{ project_name }}.git' # full path (filesystem or git: to .git repo)
+env.project_name = '{{ project_name }}'  # name of project module in root of repo
+env.gitsource = '/afs/.bu.edu/cwis/content/git/{{ project_name }}.git'  # full path (filesystem or git: to .git repo)
 env.server_owner = '{{ project_name }}-svc'
-env.copy_settings = True
-env.needs_afs_token_for_repo = True # is the repo in AFS?
-env.needs_afs_token_for_static = False # is the static content being deployed to AFS?
-env.use_syncdb = True # do you want to run 'syncdb' on deploy?
-env.use_migrations = True # do you want to run 'migrate' on deploy?
-
-# Deployment Environments
-
-def vagrant():
-    env.virtualenv_bin = '/usr/local/bin/virtualenv'
-    env.shell = '/bin/bash'
-    # path on disk
-    env.path = '/var/apps/djangoapp'
-    # settings module to use for this environment - typically projectname.settings_[env]
-    env.settings_file = env.project_name + '.settings'
-
+env.needs_afs_token_for_static = False  # is the static content being deployed to AFS?
+env.needs_afs_token_for_repo = False  # is the repo in AFS?
+env.use_migrations = False  # do you want to run 'migrate' on deploy?
+env.copy_settings = False  # are the setting located outside the repository?
+env.use_syncdb = False  # do you want to run 'syncdb' on deploy?
 
 def devl():
     # host or hosts for this environment

@@ -1,4 +1,4 @@
-from fabric.api import env, sudo, require, cd, run, local, lcd
+from fabric.api import env, sudo, require, cd, run
 from fabric.colors import cyan
 import sys
 import time
@@ -55,23 +55,23 @@ def setup():
     require('server_owner')
     require('server_group')
     require('needs_afs_token_for_repo')
-    
+
     with cd(env.path):
         run_or_sudo('; if ! [ -e %(path)s/releases ]; then mkdir releases; fi;' % env)
-    
+
     if env.needs_afs_token_for_repo:
         get_afs_token()
-    
+
     # first checkout of repo
     setup_git_repo()
-    
+
     # install virtualenv
     setup_virtualenv()
-    
+
     # create EGG_CACHE, set permissions
     run_or_sudo('; if ! [ -e %(path)s/EGG_CACHE ]; then mkdir %(path)s/EGG_CACHE; fi;' % env)
     run_or_sudo('chmod -R 775 %(path)s/EGG_CACHE' % env)
-    
+
     # install requirements into virtualenv
     # (can't install requirements until we have a release)
     import time
@@ -80,19 +80,6 @@ def setup():
     install_site()
     copy_settings()
     install_requirements()
-
-
-def setup_vagrant():
-    "Set up virtualenv and requirements for Vagrant dev environment"
-    require('path')
-    with lcd(env.path):
-        local('; if ! [ -e %(path)s/venv ]; then mkdir venv; fi;' % env)
-        # note that we're not using 'virtualenv_bin', because that path is specific to BU
-        local('; if ! [ -e %(path)s/venv/bin/python ]; then /usr/local/bin/virtualenv %(path)s/venv; fi;' % env)
-    env.release = 'current'
-    # note that this points to the project template, NOT the current release
-    local('%(path)s/venv/bin/python %(path)s/venv/bin/pip install --use-mirrors --log=%(path)s/log/pip.log -r /app/project_template/requirements.txt' % env)
-    local('sudo apache2ctl restart')
 
 
 def setup_git_repo():
@@ -109,8 +96,8 @@ def setup_git_repo():
 
 def setup_virtualenv():
     with cd(env.path):
-        run_or_sudo('; if ! [ -e %(path)s/venv ]; then mkdir venv; fi;' % env)
-        run_or_sudo('; if ! [ -e %(path)s/venv/bin/python ]; then %(virtualenv_bin)s %(path)s/venv; fi;' % env)
+        run_or_sudo('if ! [ -e %(path)s/venv ]; then mkdir venv; fi;' % env)
+        run_or_sudo('if ! [ -e %(path)s/venv/bin/python ]; then %(virtualenv_bin)s %(path)s/venv; fi;' % env)
 
 
 def update_from_git():
@@ -154,9 +141,9 @@ def install_site():
     require('gitpath')
     require('path')
     require('server_owner')
-    
+
     run_or_sudo('mkdir %(path)s/releases/%(release)s' % env)
-    
+
     # TODO: HEAD or tag (argument?)
     with cd(env.gitpath):
         run_or_sudo('git archive --format=tar HEAD | tar -x -C %(path)s/releases/%(release)s' % env)
@@ -167,7 +154,7 @@ def manage(cmd=""):
     if not cmd:
         sys.stdout.write(cyan("Command to run: "))
         cmd = raw_input().strip()
-        
+
     if cmd:
         cmd_args = dict(env)
         cmd_args.update({'cmd': cmd})
@@ -262,7 +249,6 @@ def reload_app():
     require('wsgi_script')
     require('server_owner')
     run_or_sudo('touch %(path)s/apache/%(wsgi_script)s' % env)
-
 
 def run_or_sudo(cmd):
     """run or sudo the specified command depending on who's running the script"""

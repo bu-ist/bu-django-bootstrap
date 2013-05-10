@@ -42,29 +42,34 @@ class custom {
             owner => 'vagrant',
             group => 'www-data',
             ensure => directory;
+        "/app/repo":
+            ensure => directory;
         "/var/apps/djangoapp/releases/current":
             owner => 'vagrant',
             group => 'www-data',
             ensure => link,
-            target => '/app/repo';
-    }
+            target => "/app/repo";
+    } 
     
     # initialize app
-    exec { '/usr/local/bin/fab -f /app/project_template/fabfile.py vagrant setup_vagrant':
-        cwd => '/app',
+    exec { 'fab setup_vagrant':
+        command => '/usr/local/bin/fab -f /app/templates/project_template/fabfile vagrant setup_vagrant'
+        cwd => '/var/apps/djangoapp/releases/current',
         user => 'vagrant',
         group => 'www-data',
         logoutput => true,
-        # this might take a while, since it's installing packages - disable timeout
-        timeout => 0,
-        require => File["/var/apps/djangoapp/releases/current"]
+        # this might take a while, since it's ALSO installing packages - disable timeout
+        timeout => 0
     }
     
     # startup dir
-    append_if_no_such_line {
-        startup_dir:
+    append_if_no_such_line { startup_dir:
             file => "/home/vagrant/.profile",
             line => "if [ -e /app ]; then cd /app; fi;";
+    }
+
+    exec {"source /var/apps/djangoapp/venv/bin/activate"
+        require=>Exec["fab setup_vagrant"];
     }
 
 }
