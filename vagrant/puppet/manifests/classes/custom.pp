@@ -53,7 +53,7 @@ class custom {
     
     # initialize app
     exec { 'fab setup_vagrant':
-        command => '/usr/local/bin/fab -f /app/templates/project_template/fabfile vagrant setup_vagrant'
+        command => '/usr/local/bin/fab -f /app/templates/project_template/fabfile vagrant setup_vagrant',
         cwd => '/var/apps/djangoapp/releases/current',
         user => 'vagrant',
         group => 'www-data',
@@ -68,7 +68,7 @@ class custom {
             line => "if [ -e /app ]; then cd /app; fi;";
     }
 
-    exec {"source /var/apps/djangoapp/venv/bin/activate"
+    exec {"source /var/apps/djangoapp/venv/bin/activate":
         require=>Exec["fab setup_vagrant"];
     }
 
