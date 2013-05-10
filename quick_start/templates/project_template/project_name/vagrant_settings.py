@@ -6,22 +6,16 @@ from settings import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/app/repo/db/email_helper.sqlite',
+        'NAME': '/app/repo/sqlite/db.sqlite',
     }
 }
 
 MEDIA_ROOT = '/app/repo/media/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = '/app/repo/apps/emailer/static/'
+STATIC_ROOT = '/app/repo/apps/{{app_name}}/static/'
 STATIC_URL = '/static/'
-
-CAS_REDIRECT_URL = '/edit'
-LOGIN_URL = '/accounts/login/'
-LOGOUT_URL = '/accounts/logout/'
 
 ENV = ''
 
 SESSION_COOKIE_PATH = '/'
-
-DEBUG = True
