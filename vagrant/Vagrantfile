@@ -37,8 +37,9 @@ Vagrant::Config.run do |config|
   
   config.vm.provision :puppet do |puppet|
     puppet.manifests_path = "puppet/manifests"
-    puppet.manifest_file  = "budjango-dev.pp"
-    puppet.options = ["--templatedir","/tmp/vagrant-puppet/manifests/templates"]
+    puppet.manifest_file  = "base.pp"
   end
+
+  config.vm.provision :shell, :path => "shell/configVenv.sh"
 
 end

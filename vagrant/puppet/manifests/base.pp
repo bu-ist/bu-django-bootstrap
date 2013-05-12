@@ -1,16 +1,19 @@
-import "classes/*.pp"
+import "init.pp"
+import "python.pp"
+import "mysql.pp"
+import "apache.pp"
+import "client.pp"
 
 $APP_NAME = "djangoapp"
 
-class dev {
+class base {
     class {
         init: before => Class[python];
         python: before => Class[mysql];
         mysql: before => Class[apache];
         apache: before => Class[client];
-        client: before => Class[custom];
-        custom: ;
+        client: ;
     }
 }
 
-include dev
+include base

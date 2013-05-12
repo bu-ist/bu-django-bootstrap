@@ -60,7 +60,7 @@ def continue_project(name=None, *args):
 def start_project(name=None):
     "Set up virtualenv and requirements for Vagrant dev environment"
     env.project_name = name
-    script = env.path+"/venv/bin/django-admin.py"
+    script = env.path+"venv/bin/django-admin.py"
     command = "startproject"
     template = "/app/quick_start/templates/project_template"
     destPath = env.app_path
