@@ -4,3 +4,4 @@ settings_local.py
 pip-log.txt
 .vagrant
 vagrant/puppet/manifest/build/
+repo/*

@@ -51,7 +51,7 @@ def continue_project(name=None, *args):
         if count == 0:
             requirementsPath = value
     if not os.path.exists(settingPath):
-        print(red('Unable to located file: ' % settingPath, bold=True))
+        print red('Unable to located file: %s', bold=True) % settingPath
         return False
     install_requirements(requirementsPath)
     config_server(name)

@@ -12,6 +12,6 @@ fi
 grep -q "source /var/apps/djangoapp/venv/bin/activate" /home/vagrant/.profile || 
 echo "source /var/apps/djangoapp/venv/bin/activate" >> /home/vagrant/.profile
 
-#make sure to activate venv on login.
+#make sure to login to /app folder.
 grep -q "cd /app" /home/vagrant/.profile || 
 echo "cd /app" >> /home/vagrant/.profile

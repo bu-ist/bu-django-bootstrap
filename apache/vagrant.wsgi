@@ -1,5 +1,3 @@
-# Replace 'myproject' below with your project shortname
-
 import os
 import sys
 import site
@@ -13,7 +11,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "/app
 sys.stdout = sys.stderr
 
 # tell WSGI/Django which settings module to use
-os.environ["DJANGO_SETTINGS_MODULE"] = "myproject.settings_vagrant"
+os.environ["DJANGO_SETTINGS_MODULE"] = "newProject.settings_vagrant"
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 
