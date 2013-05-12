@@ -74,13 +74,13 @@ def start_app(name=None, *args):
     script = env.path+"/venv/bin/django-admin.py"
     command = "startapp"
     template = "/app/quick_start/templates/app_template"
-    destPath = env.app_path+"/apps/"
+    destPath = env.app_path+"/apps/"+name+"/"
     for count, value in enumerate(args):
         if count == 0:
             destPath = env.app_path+"/apps/"
 
     if not os.path.exists(destPath):
-        print(cyan("Created directory:"+env.app_path+"/apps/"))
+        print(cyan("Created directory:%sapps/" % env.app_path))
         os.makedirs(destPath)
     local("python %s %s %s --template=%s %s" %
           (script, command, name, template, destPath))
