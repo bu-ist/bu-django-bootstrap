@@ -1,7 +1,7 @@
 virtualenv /var/apps/djangoapp/venv/
 source /var/apps/djangoapp/venv/bin/activate
 
-if [ -f "/app/repo/requirements" ]
+if [ -f "/app/repo/requirements.txt" ]
 then
 	pip install -r /app/repo/requirements.txt
 else
