@@ -7,8 +7,7 @@ You can always download the latest from GitHub via:
 
     https://github.com/bu-ist/bu-django-bootstrap/tarball/master
 
-Note that you should DOWNLOAD, not clone, this - unless you actually need
-to make changes to the base project.
+Note that you should DOWNLOAD, not clone, this - unless you actually need to make changes to the Bootstrap itself.
 
 QUICKSTART
 ==========
