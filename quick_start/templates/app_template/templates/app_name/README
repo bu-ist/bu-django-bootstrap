@@ -1,7 +1,0 @@
-This is where application-specific templates should go.
-
-See documentation for template loading (specifically app_directories.Loader):
-
-    https://docs.djangoproject.com/en/1.4/ref/templates/api/#loader-types
-
-(Feel free to delete this README.)
