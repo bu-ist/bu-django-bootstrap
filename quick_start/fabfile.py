@@ -1,7 +1,7 @@
 from fabric.api import env
 
 # BU's Fabric library
-from quickstart_fablib import *
+from fablib_quickstart import *
 
 # Configuration: set up your project and environment locations
 # below. We've prefilled them with defaults based on your project
@@ -18,7 +18,8 @@ def vagrant():
     env.hosts = ['localhost']
     env.user = "vagrant"
     env.password = "vagrant"
-    env.virtualenv_bin = "/var/app/djangoapp/venv/bin"
-    env.shell = "/bin/bash"
     env.path = "/var/apps/djangoapp/"
-    env.app_path = env.path+"releases/current/"
+    env.venv_bin = env.path + "venv/bin"
+    env.pkg_path = env.path + "venv/lib/python2.6/site-packages/"
+    env.app_path = env.path + "releases/current/"  # symlink to "/app/"
+    env.shell = "/bin/bash"

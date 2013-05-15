@@ -14,7 +14,7 @@ env.server_group = 'apache'
 env.wsgi_script = 'app.wsgi'
 env.gettoken_script = 'gettoken'
 env.shell = 'ORACLE_HOME=/usr/local/oracle/product/11.2.0 LD_LIBRARY_PATH=/usr/local/oracle/product/11.2.0/lib /bin/bash --noprofile -l -c' # avoid looking for .bash_profile, etc.
-env.virtualenv_bin = '/usr/bin/virtualenv-2.6'
+env.venv_bin = '/usr/bin/virtualenv-2.6'
 
 
 def install_requirements(req_path):
@@ -44,9 +44,9 @@ def config_server(name=None):
     )
 
 
-def continue_project(name=None, *args):
+def continue_project(project_name=None, *args):
     requirementsPath = env.app_path+"requirements.txt"
-    settingPath = env.app_path+"%s/settings_vagrant.py" % (name)
+    settingPath = env.app_path + project_name + "/settings_vagrant.py"
     for count, value in enumerate(args):
         if count == 0:
             requirementsPath = value
@@ -54,23 +54,31 @@ def continue_project(name=None, *args):
         print red('Unable to located file: %s', bold=True) % settingPath
         return False
     install_requirements(requirementsPath)
-    config_server(name)
+    config_server(project_name)
 
 
-def start_project(name=None):
-    "Set up virtualenv and requirements for Vagrant dev environment"
-    env.project_name = name
+def start_project(project_name=None):
+    """start up virtualenv and requirements for Vagrant dev environment """
+    env.project_name = project_name
     script = env.path+"venv/bin/django-admin.py"
     command = "startproject"
     template = "/app/quick_start/templates/project_template"
     destPath = env.app_path
     local("python %s %s %s --template=%s %s" %
-         (script, command, name, template, destPath))
+         (script, command, project_name, template, destPath))
+
+    #add the project directory to python path.
+    pathFile = env.pkg_path + project_name + ".pth"
+    local("sudo touch %s" % pathFile)
+    local("sudo chmod 777 %s" % pathFile)  # work around some weird permission issue even when sudo-ing
+    local("sudo \"/app/repo/%s/\" >> %s" % project_name, pathFile)
+    local("sudo chmod 755 %s" % pathFile)  # change perms back to default
+
     install_requirements("/app/repo/requirements.txt")
-    config_server(name)
+    config_server(project_name)
 
 
-def start_app(name=None, *args):
+def start_app(app_name=None, *args):
     script = env.path+"/venv/bin/django-admin.py"
     command = "startapp"
     template = "/app/quick_start/templates/app_template"
@@ -83,7 +91,7 @@ def start_app(name=None, *args):
         print(cyan("Created directory:"+env.app_path+"/apps/"))
         os.makedirs(destPath)
     local("python %s %s %s --template=%s %s" %
-          (script, command, name, template, destPath))
+          (script, command, app_name, template, destPath))
 
 
 def setup_vagrant():

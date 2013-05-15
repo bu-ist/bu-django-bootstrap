@@ -6,7 +6,7 @@ from settings import *
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/app/repo/sqlite/db.sqlite',
+        'NAME': '/app/repo/sqlite/django.sqlite',
     }
 }
 
