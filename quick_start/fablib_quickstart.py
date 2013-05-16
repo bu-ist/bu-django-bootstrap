@@ -10,6 +10,7 @@ import os
 # distributed with the BU Django Bootstrap package.
 
 # these settings generally don't need to be changed
+# these settings can be modified in fabfile.py vagrant():
 env.server_group = 'apache'
 env.wsgi_script = 'app.wsgi'
 env.gettoken_script = 'gettoken'
@@ -66,13 +67,6 @@ def start_project(project_name=None):
     destPath = env.app_path
     local("python %s %s %s --template=%s %s" %
          (script, command, project_name, template, destPath))
-
-    #add the project directory to python path.
-    pathFile = env.pkg_path + project_name + ".pth"
-    local("sudo touch %s" % pathFile)
-    local("sudo chmod 777 %s" % pathFile)  # work around some weird permission issue even when sudo-ing
-    local("sudo \"/app/repo/%s/\" >> %s" % project_name, pathFile)
-    local("sudo chmod 755 %s" % pathFile)  # change perms back to default
 
     install_requirements("/app/repo/requirements.txt")
     config_server(project_name)

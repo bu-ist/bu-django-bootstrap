@@ -1,5 +1,13 @@
-#create/activate the virtual environment once loaded...
-virtualenv /var/apps/djangoapp/venv/
+
+#create the virtual environment if not exists...
+[ -d "/var/apps/djangoapp/venv/bin/" ] ||
+	virtualenv /var/apps/djangoapp/venv/
+
+#add the /app/repo folder to virtual environment's PYTHONPATH if not added
+[ -e "/var/apps/djangoapp/venv/lib/python2.6/site-packages/repo.pth" ] ||
+	echo "/app/repo/" >> "/var/apps/djangoapp/venv/lib/python2.6/site-packages/repo.pth"
+
+#activate the virtual environement
 source /var/apps/djangoapp/venv/bin/activate
 
 #make sure to install the proper requirements files into the venv.
@@ -11,7 +19,7 @@ else
 fi
 
 #append the following lines to .profile for expected login behavior
-#make sure to activate venv on login.
+#makes sure to activate venv on login.
 grep -q "source /var/apps/djangoapp/venv/bin/activate" /home/vagrant/.profile || 
 echo "source /var/apps/djangoapp/venv/bin/activate" >> /home/vagrant/.profile
 
