@@ -46,8 +46,8 @@ def config_server(name=None):
 
 
 def continue_project(project_name=None, *args):
-    requirementsPath = env.app_path+"requirements.txt"
-    settingPath = env.app_path + project_name + "/settings_vagrant.py"
+    requirementsPath = env.repo_path+"requirements.txt"
+    settingPath = env.repo_path + project_name + "/settings_vagrant.py"
     for count, value in enumerate(args):
         if count == 0:
             requirementsPath = value
@@ -58,34 +58,50 @@ def continue_project(project_name=None, *args):
     config_server(project_name)
 
 
-def start_project(project_name=None):
-    """start up virtualenv and requirements for Vagrant dev environment """
-    env.project_name = project_name
-    script = env.path+"venv/bin/django-admin.py"
-    command = "startproject"
-    template = "/app/quick_start/templates/project_template"
-    destPath = env.app_path
-    local("python %s %s %s --template=%s %s" %
-         (script, command, project_name, template, destPath))
+def start_app_project(project_name, app_name):
+    """"
+        Because django doesn't support templating projects with a predefined
+        context (yet) we can hack this by rendering the project template with the
+        app_name context first then again with the project_name in the context.
+    """
+    repo_template = "/app/quick_start/templates/repo_template/"
+    start_app(app_name, **{'template': repo_template, 'destination': env.temp_dir})
+    start_project(project_name, **{'template': env.temp_dir})
 
+
+def start_project(project_name, **kwargs):
+    """start up virtualenv and requirements for Vagrant dev environment """
+
+    env.project_name = project_name
+    template = "/app/quick_start/templates/project_template"
+    if 'template' in kwargs:
+        template = kwargs['template']
+    destPath = env.repo_path
+    if 'destination' in kwargs:
+        destPath = kwargs['destination']
+
+    if not os.path.exists(destPath):
+        print(cyan("Created directory:"+destPath))
+        os.makedirs(destPath)
+    local("%s/django-admin.py startproject %s --template=%s %s" %
+         (env.venv_bin, project_name, template, destPath))
     install_requirements("/app/repo/requirements.txt")
     config_server(project_name)
 
 
-def start_app(app_name=None, *args):
-    script = env.path+"/venv/bin/django-admin.py"
-    command = "startapp"
+def start_app(app_name, **kwargs):
     template = "/app/quick_start/templates/app_template"
-    destPath = env.app_path+"/apps/"
-    for count, value in enumerate(args):
-        if count == 0:
-            destPath = env.app_path+"/apps/"
-
+    if 'template' in kwargs:
+        template = kwargs['template']
+    destPath = env.repo_path+"apps/"+app_name
+    if 'destination' in kwargs:
+        destPath = kwargs['destination']
     if not os.path.exists(destPath):
-        print(cyan("Created directory:"+env.app_path+"/apps/"))
+        print(cyan("Created directory:"+destPath))
         os.makedirs(destPath)
-    local("python %s %s %s --template=%s %s" %
-          (script, command, app_name, template, destPath))
+        file(env.repo_path+"apps/__init__.py", "w+")
+    local("%s/django-admin.py startapp %s --template=%s %s" %
+          (env.venv_bin, app_name, template, destPath))
 
 
 def setup_vagrant():

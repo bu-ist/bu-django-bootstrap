@@ -21,5 +21,6 @@ def vagrant():
     env.path = "/var/apps/djangoapp/"
     env.venv_bin = env.path + "venv/bin"
     env.pkg_path = env.path + "venv/lib/python2.6/site-packages/"
-    env.app_path = env.path + "releases/current/"  # symlink to "/app/"
+    env.repo_path = env.path + "releases/current/"  # symlink to "/app/repo"
     env.shell = "/bin/bash"
+    env.temp_dir = '/tmp/django/app_project/'

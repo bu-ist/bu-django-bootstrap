@@ -157,7 +157,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
-    'debug_toolbar'
+    'debug_toolbar',
+    'apps.{{app_name}}'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
