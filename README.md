@@ -28,9 +28,9 @@ START A NEW PROJECT:
     $ cd /PATH/TO/THIS/BOOTSTRAP/vagrant
     $ vagrant up
 
-This can take a few minutes while vagrant downloads the VM and installs a few view core features on the machine.
+This can take a few minutes while vagrant downloads the VM and installs a few core components on the machine.
 
-2) To start a new project, run the following commands in a terminal window, where ``<myproject>`` and ``<myapp>`` should be replaced by whatever makes sense to you. (As a rule of thumb, use underscores for spaces, avoid the words 'project' and 'app', and make sure to use all lower case letters for these place holders. This makes the job a lot easier for sys-admins down the road!!!)
+2) To start a new project, run the following commands in a terminal window, where ``<myproject>`` and ``<myapp>`` should be replaced by whatever makes sense to you. (As a rule of thumb, **use underscores for spaces**, **avoid the words 'project' and 'app'**, and make sure to **use only lower case letters**. This makes the job a lot easier for sys-admins down the road!!!)
 
     $ vagrant ssh 
     (venv)$ cd quick_start
