@@ -56,7 +56,8 @@ On OSX, GitHub has a great application that allows you to Clone a repo to a fold
 
 3) Make sure the project dependencies are satified by executing the following commands. Change ``<myproject>`` to read the name of the project that you just cloned from GitHub. This is the same name as the folder containing the settings.py file and will be located in your repo folder.
 
-    $ vagrant ssh 
+    $ vagrant ssh
+    (venv)$ cd quick_start
     (venv)$ fab vagrant continue_project:<myproject>
 
 Your Environment is now ready to work on and be reachable via http://localhost:8080 (unless there's some extra vodoo happening on the application end).
