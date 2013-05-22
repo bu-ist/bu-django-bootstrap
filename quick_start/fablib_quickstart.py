@@ -19,7 +19,7 @@ env.venv_bin = '/usr/bin/virtualenv-2.6'
 
 
 def install_requirements(req_path):
-    local("pip install -r %s" % (req_path))
+    local("sudo pip install -r %s" % (req_path))
 
 
 def config_server(name=None):
@@ -87,19 +87,3 @@ def start_app(app_name=None, *args):
         file(env.repo_path+"apps/__init__.py", "w+")
     local("python %s %s %s --template=%s %s" %
           (script, command, app_name, template, destPath))
-
-
-def setup_vagrant():
-    "Set up virtualenv and requirements for Vagrant dev environment"
-    require('path')
-    with cd(env.path):
-        local('if ! [ -e %(path)s/venv ]; then mkdir venv; fi;' % env)
-        local('if ! [ -e %(path)s/venv/bin/python ]; ' +
-              'then /usr/local/bin/virtualenv %(path)s/venv; fi;' % env)
-    env.release = 'current'
-    # note that this points to the project template, NOT the current release
-    local('%(path)s/venv/bin/python %(path)s/venv/bin/pip install ' +
-          '--use-mirrors --log=%(path)s/log/pip.log ' +
-          '-r /app/templates/project_template/requirements.txt' % env
-          )
-    local('sudo apache2ctl restart')
