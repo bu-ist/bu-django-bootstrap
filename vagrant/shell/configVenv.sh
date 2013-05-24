@@ -1,3 +1,6 @@
+#install any last minute project specific system requirements if provided
+[ -e "/app/repo/requirements.sys" ] &&
+	cat /app/repo/requirements.sys | xargs sudo aptitude install -y
 
 #create the virtual environment if not exists...
 [ -d "/var/apps/djangoapp/venv/bin/" ] ||
@@ -11,12 +14,9 @@
 source /var/apps/djangoapp/venv/bin/activate
 
 #make sure to install the proper requirements files into the venv.
-if [ -f "/app/repo/requirements.txt" ]
-then
-	pip install -r /app/repo/requirements.txt
-else
-	pip install -r /app/quick_start/templates/project_template/requirements.txt
-fi
+[ -f "/app/repo/requirements.txt" ] && 
+pip install -r /app/repo/requirements.txt || 
+pip install -r /app/quick_start/templates/project_template/requirements.txt
 
 #append the following lines to .profile for expected login behavior
 #makes sure to activate venv on login.
