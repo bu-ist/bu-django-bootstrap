@@ -58,7 +58,7 @@ On OSX, GitHub has a great application that allows you to Clone a repo to a fold
 
     $ vagrant ssh
     (venv)$ cd quick_start
-    (venv)$ fab vagrant continue_project:<myproject>
+    (venv)$ sudo fab vagrant continue_project:<myproject>
 
 Your Environment is now ready to work on and be reachable via http://localhost:8080 (unless there's some extra vodoo happening on the application end).
 
