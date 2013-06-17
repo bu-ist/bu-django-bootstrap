@@ -177,7 +177,7 @@ def symlink_current_release():
     # all the "if" stuff in case there *is* no current or prev release
     with cd(''.join([env.path, '/releases'])):
         try:
-            run_or_sudo('; if [ -e %(path)s/releases/previous ]; then rm -rf `readlink %(path)s/releases/previous`; fi;' % env)
+            run_or_sudo('; if [ -e %(path)s/releases/previous ]; then mv -f `readlink %(path)s/releases/previous/` %(path)s/releases/archive/; fi;' % env)
         except:
             # OK if removing previous doesn't work - might be _init, owned by root
             pass
