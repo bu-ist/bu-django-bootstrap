@@ -9,14 +9,6 @@ import os
 # It should ultimately be an independent package, though currently it's
 # distributed with the BU Django Bootstrap package.
 
-# these settings generally don't need to be changed
-# these settings can be modified in fabfile.py vagrant():
-env.server_group = 'apache'
-env.wsgi_script = 'app.wsgi'
-env.gettoken_script = 'gettoken'
-env.shell = 'ORACLE_HOME=/usr/local/oracle/product/11.2.0 LD_LIBRARY_PATH=/usr/local/oracle/product/11.2.0/lib /bin/bash --noprofile -l -c' # avoid looking for .bash_profile, etc.
-env.venv_bin = '/usr/bin/virtualenv-2.6'
-
 
 def install_requirements(req_path):
     local("sudo pip install -r %s" % (req_path))
@@ -61,7 +53,7 @@ def continue_project(project_name=None, *args):
 def start_project(project_name=None):
     """start up virtualenv and requirements for Vagrant dev environment """
     env.project_name = project_name
-    script = env.path+"venv/bin/django-admin.py"
+    script = env.venv_bin+"django-admin.py"
     command = "startproject"
     template = "/app/quick_start/templates/project_template"
     destPath = env.app_path
@@ -73,17 +65,18 @@ def start_project(project_name=None):
 
 
 def start_app(app_name=None, *args):
-    script = env.path+"/venv/bin/django-admin.py"
+    script = env.venv_bin+"django-admin.py"
     command = "startapp"
     template = "/app/quick_start/templates/app_template"
-    destPath = env.app_path+"/apps/"+app_name
+    apps_dir = env.app_path + "apps/"
+    destPath = apps_dir + app_name
     for count, value in enumerate(args):
         if count == 0:
-            destPath = env.app_path+"/apps/"
+            destPath = env.app_path+"apps/"
 
     if not os.path.exists(destPath):
-        print(cyan("Created directory:"+env.app_path+"/apps/"))
+        print(cyan("Created directory:"+env.app_path+"apps/"))
         os.makedirs(destPath)
-        file(env.repo_path+"apps/__init__.py", "w+")
+        file(apps_dir+"__init__.py", "w+")
     local("python %s %s %s --template=%s %s" %
           (script, command, app_name, template, destPath))
