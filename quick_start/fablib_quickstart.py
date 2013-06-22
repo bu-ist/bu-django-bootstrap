@@ -64,19 +64,19 @@ def start_project(project_name=None):
     config_server(project_name)
 
 
-def start_app(app_name=None, *args):
+def start_app(app_name=None):
+    apps_dir = env.app_path + "apps/"
+    if not os.path.exists(apps_dir):
+        print(cyan("Created directory:"+env.app_path+"apps/"))
+        os.makedirs(apps_dir)
+        file(apps_dir+"__init__.py", "w+")
+
+    destPath = apps_dir + app_name
+    os.makedirs(destPath)
+
     script = env.venv_bin+"django-admin.py"
     command = "startapp"
     template = "/app/quick_start/templates/app_template"
-    apps_dir = env.app_path + "apps/"
-    destPath = apps_dir + app_name
-    for count, value in enumerate(args):
-        if count == 0:
-            destPath = env.app_path+"apps/"
 
-    if not os.path.exists(destPath):
-        print(cyan("Created directory:"+env.app_path+"apps/"))
-        os.makedirs(destPath)
-        file(apps_dir+"__init__.py", "w+")
     local("python %s %s %s --template=%s %s" %
           (script, command, app_name, template, destPath))
