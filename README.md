@@ -18,7 +18,7 @@ If you prefer ZIP: https://github.com/bu-ist/bu-django-bootstrap/zipball/master
 
 If you don't already have it, install Oracle VirtualBox from https://www.virtualbox.org/wiki/Downloads
 
-If you don't already have it, install Vagrant from http://vagrantup.com
+If you don't already have it, install the latest version of Vagrant from http://vagrantup.com (tested with 1.2.2)
 
 START A NEW PROJECT:
 =======================
