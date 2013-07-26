@@ -65,6 +65,10 @@ Your Environment is now ready to work on and be reachable via http://localhost:8
 LAST BUT NOT LEAST:
 ===================
 
+As you proceed with your project and decide to use the provided sqlite3 database to get you up and running the faster, consider not tracking the changes done to the commited database file by executing the following command inside your repo folder:
+    
+    $ git update-index --assume-unchanged <project_name>/sqlite/django.sqlite 
+
 As you begin the project, take 5 minutes to review the Django coding style
 guide found here:
 
