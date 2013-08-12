@@ -48,6 +48,8 @@ def continue_project(project_name=None, *args):
         return False
     install_requirements(requirementsPath)
     config_server(project_name)
+    if os.path.exists('/app/repo/sqlite/django.sqlite'):
+        local('cd /app/repo/sqlite; git update-index --assume-unchanged /app/repo/sqlite/django.sqlite;')
 
 
 def start_project(project_name=None):
