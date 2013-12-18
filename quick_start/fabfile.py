@@ -13,14 +13,12 @@ from fablib_quickstart import *
 # common settings - can be overridden per-environment
 #env.gitsource = '/afs/.bu.edu/cwis/content/git/{{ project_name }}.git'
 
-
-def vagrant():
-    env.hosts = ['localhost']
-    env.user = "vagrant"
-    env.password = "vagrant"
-    env.path = "/var/apps/djangoapp/"
-    env.venv_bin = env.path + "venv/bin/"
-    env.pkg_path = env.path + "venv/lib/python2.6/site-packages/"
-    env.app_path = env.path + "releases/current/"  # symlink to "/app/repo/"
-    env.shell = "/bin/bash"
-	env.project_name = None
+env.hosts = ['localhost']
+env.user = "vagrant"
+env.password = "vagrant"
+env.path = "/var/apps/djangoapp/"
+env.venv_bin = env.path + "venv/bin/"
+env.pkg_path = env.path + "venv/lib/python2.6/site-packages/"
+env.app_path = env.path + "releases/current/"  # symlink to "/app/repo/"
+env.shell = "/bin/bash"
+env.project_name = None

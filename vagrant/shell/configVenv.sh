@@ -7,16 +7,10 @@
 [ -e "/var/apps/djangoapp/venv/lib/python2.6/site-packages/repo.pth" ] ||
 	echo "/app/repo/" >> "/var/apps/djangoapp/venv/lib/python2.6/site-packages/repo.pth"
 
-#activate the virtual environement
+#activate the virtual environement, and install Django and Fabric...
 source /var/apps/djangoapp/venv/bin/activate
-
-#make sure to install the proper requirements files into the venv.
-if [ -f "/app/repo/requirements.txt" ]
-then
-	pip install -r /app/repo/requirements.txt
-else
-	pip install -r /app/quick_start/templates/project_template/requirements.txt
-fi
+sudo pip install -Iv Django==1.6.1
+sudo pip install -IV Fabric==1.8.0
 
 #append the following lines to .profile for expected login behavior
 #makes sure to activate venv on login.

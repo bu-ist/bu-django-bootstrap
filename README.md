@@ -30,12 +30,11 @@ START A NEW PROJECT:
 
 This can take a few minutes while vagrant downloads the VM and installs a few core components on the machine.
 
-2) To start a new project, run the following commands in a terminal window, where ``<myproject>`` and ``<myapp>`` should be replaced by whatever makes sense to you. (As a rule of thumb, **use underscores for spaces**, **avoid the words 'project' and 'app'**, and make sure to **use only lower case letters**. This makes the job a lot easier for sys-admins down the road!!!)
+2) To start a new project, run the following commands in a terminal window, where ``<project_name>`` and ``<app_name>`` should be replaced by whatever makes sense to you. (As a rule of thumb, **use underscores for spaces**, **avoid the words 'project' and 'app'**, and make sure to **use only lower case letters**. This makes the job a lot easier for sys-admins down the road!!!)
 
     $ vagrant ssh 
     (venv)$ cd quick_start
-    (venv)$ fab vagrant start_project:<myproject>
-    (venv)$ fab vagrant start_app:<myapp>
+    (venv)$ fab start:project=<project_name>,app=<app_name>
 
 From here on in, ``/app/repo`` is where your code will live and where you should init[ialize] your git repository.
 
@@ -54,11 +53,11 @@ CONTINUE AN EXISTING PROJECT:
 On OSX, GitHub has a great application that allows you to Clone a repo to a folder with just a few clicks, so if you prefer a GUI interface, that's your best bet. Here's a download link: https://central.github.com/mac/latest
 
 
-3) Make sure the project dependencies are satified by executing the following commands. Change ``<myproject>`` to read the name of the project that you just cloned from GitHub. This is the same name as the folder containing the settings.py file and will be located in your repo folder.
+3) Make sure the project dependencies are satified by executing the following commands. Change ``<project_name>`` to read the name of the project that you just cloned from GitHub. This is the same name as the folder containing the settings.py file and will be located in your repo folder.
 
     $ vagrant ssh
     (venv)$ cd quick_start
-    (venv)$ sudo fab vagrant continue_project:<myproject>
+    (venv)$ sudo fab continue:project<project_name>
 
 Your Environment is now ready to work on and be reachable via http://localhost:8080 (unless there's some extra vodoo happening on the application end).
 

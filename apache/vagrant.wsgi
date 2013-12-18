@@ -1,17 +1,15 @@
 import os
 import sys
 import site
+
 # use the virtualenv's packages
 site.addsitedir( os.path.abspath(os.path.join(os.path.dirname(__file__), "/var/apps/djangoapp/venv/lib/python2.6/site-packages")))
-
-# put the Django project on sys.path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "/app/repo")))
 
 # work around WSGI's output restriction - see: http://code.google.com/p/modwsgi/wiki/ApplicationIssues#Writing_To_Standard_Output
 sys.stdout = sys.stderr
 
 # tell WSGI/Django which settings module to use
-os.environ["DJANGO_SETTINGS_MODULE"] = "myproject.settings_vagrant"
+os.environ["DJANGO_SETTINGS_MODULE"] = "my_project.settings_vagrant"
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 

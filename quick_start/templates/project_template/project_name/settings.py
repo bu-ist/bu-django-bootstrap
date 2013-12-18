@@ -212,10 +212,3 @@ LOGGING = {
     }
 }
 
-# if there's a settings_local file, use those setting to override
-# deployment settings (paths, for instance, or DB credentials).
-# Generally, this won't be necessary thanks to settings_vagrant.
-try:
-    from settings_local import *
-except ImportError:
-    pass
