@@ -23,3 +23,4 @@ def vagrant():
     env.pkg_path = env.path + "venv/lib/python2.6/site-packages/"
     env.app_path = env.path + "releases/current/"  # symlink to "/app/repo/"
     env.shell = "/bin/bash"
+	env.project_name = None
