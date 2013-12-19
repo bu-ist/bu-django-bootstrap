@@ -40,6 +40,9 @@ Vagrant::Config.run do |config|
     puppet.manifest_file  = "base.pp"
   end
 
+  config.vm.provision :shell, :inline => "echo -e '#{File.read("#{Dir.home}/.gitconfig")}' > '/home/vagrant/.gitconfig'"
+  config.vm.provision :shell, :inline => "echo -e '#{File.read("#{Dir.home}/.ssh/id_rsa")}' > '/home/vagrant/.ssh/id_rsa'"
+
   config.vm.provision :shell, :path => "shell/configVenv.sh"
 
 end
