@@ -36,9 +36,15 @@ This can take a few minutes while vagrant downloads the VM and installs a few co
     (venv)$ cd quick_start
     (venv)$ fab start:project=<project_name>,app=<app_name>
 
-From here on in, ``/app/repo`` is where your code will live and where you should init[ialize] your git repository.
+At this point, If all goes well, you're new application should be reachable at http://localhost:8080. 
 
-If all goes well, you're new application should be reachable at http://localhost:8080. For a full rundown of set tasks, see ``/docs/new-project.txt``.
+3) The Git repository has already been initialized for you. From here on in, ``/app/repo`` is where your code will live. As you may have notice from one of the warnings thrown by the fab start script, all that's left for you to do is add the remote orgin to your local github repository. If you have a github repo. configured, you can do so with the following commands:
+
+    (venv)$ cd /app/repo
+    (venv)$ git remote add origin https://<URL_TO_GITHUB_REPO>.git; git remote -v
+
+that final line will let you know if the remote is reachable and if the remote orgin addition was succesful.
+
 
 CONTINUE AN EXISTING PROJECT:
 ================================
@@ -69,9 +75,11 @@ A database is required to work with a Django application. We recommend using a t
 
 # SQLite Setup
 
-As you proceed with your project and decide to use the provided sqlite3 database to get you up and running faster, consider not tracking the changes done to the commited database file by executing the following command inside your repo folder:
+If you ran the fab start:project=<project_name>,app=<app_name> command, you might have noticed that the git repo is already set up for you. The sqlite file for the project has also been ignored for you and you should be all set in terms of not tracking any further changes done to it.
+
+If by chance something went wrong, and you still need to stop tracking the changes done to a commited database file, you can accomplish this by executing the following command inside your repo folder:
     
-    $ git update-index --assume-unchanged <project_name>/sqlite/django.sqlite 
+    $ git update-index --assume-unchanged sqlite/django.sqlite 
 
 # Oracle Setup
 

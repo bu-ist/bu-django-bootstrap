@@ -31,6 +31,7 @@ def start(project=None, app=None):
         pickup(project=project)
 
 
+
 def start_project(project_name):
     env.project_name = project_name
     script = env.venv_bin + "django-admin.py"
@@ -46,6 +47,7 @@ def start_project(project_name):
 
     install_requirements()
     config_project_server()
+
 
 
 def start_app(app_name=None):
@@ -75,27 +77,40 @@ def start_app(app_name=None):
         print green("Hooked app '%s' into project '%s'" %(app_name, env.project_name))
 
 
-def pickup(project=None, do_requirements='yes', do_apache='yes', do_sqlite='yes', do_wrap_up='yes'):
+
+def pickup(project=None, do_requirements='yes', do_apache='yes'):
     """
     Configure the vagrant vm to use an existing project. USAGE: $ fab pickup:project=project_name
     """
     if project == None:
         print red('You must provide a project name as: $ fab pickup:project="project_name"')
         abort()
-
     env.project_name = project
+    do_sqlite ='yes' if files.exists(env.app_path + "sqlite/django.sqlite") and files.exists(env.git_path) else 'no'
+    do_wrap_up='yes' if files.exists(env.app_path + "sys_requirements.sh") else 'no'
 
     if do_requirements =='yes': install_requirements()
     if do_apache       =='yes': config_project_server()
-    if do_sqlite       =='yes': ignore_sqlite_file()
-    if do_wrap_up      =='yes': wrap_up()
+    if do_sqlite       =='yes': 
+        local('cd %s; git update-index --assume-unchanged sqlite/django.sqlite;' %(env.app_path))
+        print green("Ignoring local sqlite file.")
+        print yellow("Make sure the host's sqlite folder and contents have permission set to 777.")
+    if do_wrap_up      =='yes': 
+        local('sh %s;' % env.app_path + "sys_requirements.sh")
+        print green("Installed additional sys_requirements.sh")
+    print green("setup complete! visit http://localhost:8080 to see the site.")
     
 
+
 def install_requirements():
-    file_name = "requirements.txt"
-    file_path = env.app_path + file_name
-    check_file_exists(file_path, "do_requirements")
+    file_path = env.app_path + "requirements.txt"
+    if not files.exists(file_path):
+        print red('Unable to locate: %s') % (file_path)
+        print yellow('To skip the installation, add the do_requirements="no" argument.')
+        abort()
     local("sudo pip install -r %s" % (file_path))
+    print green("Sucessfully installed python packages.");
+
 
 
 def config_project_server():
@@ -119,28 +134,5 @@ def config_project_server():
         mirror_local_mode,
         mode
     )
-
-
-def ignore_sqlite_file():
-    file_name = "django.sqlite"
-    file_path = env.app_path + "sqlite/" + file_name
-    check_file_exists(file_path, "do_sqlite")
-    check_file_exists(env.git_path, "do_sqlite")
-    local('cd %s; git update-index --assume-unchanged %s;' %(env.app_path, "sqlite/" + file_name))
-
-
-def wrap_up():
-    file_name = "sys_requirements.sh"
-    file_path = env.app_path + file_name
-    check_file_exists(file_path, "do_wrap_up", abort_on_error=False)
-    local('sh %s;' % file_path)
-
-
-def check_file_exists(file_path, skip_arg_name=None, abort_on_error=True):
-    if not files.exists(file_path):
-        print red('Unable to locate: %s') % (file_path)
-        if skip_arg_name is not None:
-            print yellow('To skip the installation, add the %s="no" argument.') % (skip_arg_name)
-        if abort_on_error:
-            abort("Tried to access illegal file path.")
+    print green('Vagrant Apache successfully configured')
 
