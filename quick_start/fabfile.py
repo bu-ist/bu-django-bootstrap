@@ -20,6 +20,5 @@ env.path = "/var/apps/djangoapp/"
 env.venv_bin = env.path + "venv/bin/"
 env.pkg_path = env.path + "venv/lib/python2.6/site-packages/"
 env.app_path = env.path + "releases/current/"  # symlink to "/app/repo/"
-env.shell = "/bin/bash"
 env.apps_path = env.app_path + "apps/"
 env.project_name = None

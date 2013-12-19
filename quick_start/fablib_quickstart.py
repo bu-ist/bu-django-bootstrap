@@ -20,7 +20,7 @@ def start(project=None, app=None):
     if(app != None):   start_app(app)
     #if both app and project are provided, continue.
     if(project != None and app != None): 
-        pickup(project=project, do_requirements='yes', do_apache='yes', do_sqlite='yes', do_wrap_up='yes')
+        pickup(project=project, do_requirements='yes', do_apache='yes', do_sqlite='no', do_wrap_up='yes')
 
 
 def start_project(project_name):
@@ -29,38 +29,39 @@ def start_project(project_name):
     command = "startproject"
     template = "/app/quick_start/templates/project_template"
     destPath = env.app_path
-    local("python %s %s %s --template=%s %s" %
-         (script, command, env.project_name, template, destPath))
+   
+    local("python %s %s %s --template=%s %s" %(script, command, env.project_name, template, destPath))
+    print green("Created new project '%s' in: %s" % (env.project_name, destPath))
 
     install_requirements()
     config_project_server()
 
 
 def start_app(app_name=None):
-    apps_dir = env.app_path + "apps/"
-    if not os.path.exists(apps_dir):
-        print green("Created directory:"+env.app_path+"apps/")
-        os.makedirs(apps_dir)
-        file(apps_dir+"__init__.py", "w+")
+    apps_module_file = env.apps_path + "__init__.py"
+    if not files.exists(apps_module_file):
+        os.makedirs(apps_module_file)
+        print green("Created apps module: %s" %apps_module_file)
 
-    destPath = apps_dir + app_name
+    destPath = env.apps_path + app_name
     os.makedirs(destPath)
+    print green("Created folder: %s" %destPath)
 
     script = env.venv_bin+"django-admin.py"
     command = "startapp"
     template = "/app/quick_start/templates/app_template"
 
-    local("python %s %s %s --template=%s %s" %
-          (script, command, app_name, template, destPath))
+    local("python %s %s %s --template=%s %s" %(script, command, app_name, template, destPath))
+    print green("Started new app in: %s" % destPath)
 
     if(env.project_name != None):
         settings = env.app_path + env.project_name + "/settings.py"
         line = "INSTALLED_APPS +=  ('apps.%s',)" % app_name
         local('echo "%s" >> %s' % (line, settings));
         project_urls = env.app_path + env.project_name + "/urls.py"
-        line = "urlpatterns += patterns('',url(r'', include('apps.%s.urls')),)" % app_name;
+        line = "urlpatterns += patterns('',url(r'', include('apps.%s.urls')),)" %app_name;
         local('echo "%s" >> %s' %(line, project_urls))
-
+        print green("Hooked app '%s' into project '%s'" %(app_name, env.project_name))
 
 
 def pickup(project=None, do_requirements='yes', do_apache='yes', do_sqlite='yes', do_wrap_up='yes'):
@@ -69,13 +70,9 @@ def pickup(project=None, do_requirements='yes', do_apache='yes', do_sqlite='yes'
     """
     if project == None:
         print red('You must provide a project name as: $ fab pickup:project="project_name"')
-        return False
+        abort()
 
     env.project_name = project
-    setting_vagrant = env.app_path + env.project_name + "/settings_vagrant.py"
-    if not os.path.exists(setting_vagrant):
-        print red('Unable to locate settings_vagrant file at: %s') % setting_vagrant
-        return False
 
     if do_requirements =='yes': install_requirements()
     if do_apache       =='yes': config_project_server()
@@ -86,7 +83,7 @@ def pickup(project=None, do_requirements='yes', do_apache='yes', do_sqlite='yes'
 def install_requirements():
     file_name = "requirements.txt"
     file_path = env.app_path + file_name
-    check_file_path(file_path, file_name, "do_requirements")
+    check_file_exists(file_path, "do_requirements")
     local("sudo pip install -r %s" % (file_path))
 
 
@@ -116,26 +113,23 @@ def config_project_server():
 def ignore_sqlite_file():
     file_name = "django.sqlite"
     file_path = env.app_path + "sqlite/" + file_name
-    check_file_path(file_path, file_name, "do_sqlite")
-    command = 'git update-index --assume-unchanged %s;' %(file_path)
-
-    if not os.path.exists(env.app_path + ".git"):
-        print yellow("Unable to ignore sqlite file. When you initiate the project repository, make sure to run:")
-        print yellow("     $ %s" % command)
-        return False
-    local(command)
+    check_file_exists(file_path, "do_sqlite")
+    check_file_exists(env.app_path+".git/", "do_sqlite")
+    local('cd %s; git update-index --assume-unchanged %s;' %(env.app_path, file_path))
 
 
 def wrap_up():
-    file_name = "continue_project.sh"
+    file_name = "sys_requirements.sh"
     file_path = env.app_path + file_name
-    check_file_path(file_path, file_name, "do_wrap_up")
+    check_file_exists(file_path, "do_wrap_up", abort_on_error=False)
     local('sh %s;' % file_path)
 
 
-def check_file_path(req_path, file_name, arg_name=None):
-    if not os.path.exists(req_path):
-        print red('Unable to locate %s file at: %s') % (file_name, req_path)
-        if arg_name is not None:
-            print red('To skip the installation of the %s file, add the %s="no" argument.') % (file_name, arg_name)
-        abort("encountered illegal file path.")
+def check_file_exists(file_path, skip_arg_name=None, abort_on_error=True):
+    if not files.exists(file_path):
+        print red('Unable to locate: %s') % (file_path)
+        if skip_arg_name is not None:
+            print yellow('To skip the installation, add the %s="no" argument.') % (skip_arg_name)
+        if abort_on_error:
+            abort("Tried to access illegal file path.")
+
