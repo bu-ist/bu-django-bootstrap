@@ -5,3 +5,4 @@ pip-log.txt
 .vagrant
 vagrant/puppet/manifest/build/
 repo/*
+*.bak
