@@ -16,11 +16,19 @@ def start(project=None, app=None):
     Fast start the Django applicatin with the bare bone minimum. USAGE: $ fab start:project=project_name,app=app_name
     """
     #set build the project as it would be normally.
-    if(project != None):  start_project(project)
-    if(app != None):   start_app(app)
+    if(project != None):  
+        start_project(project)
+    if(app != None):   
+        start_app(app)
+
+    if files.exists(env.git_path):
+        local('cd %s; git add -A; git commit -m "Initial Commit"' %(env.app_path))
+        print green("Added and commited your project files to git.")
+        print yellow("If you haven't so already, make sure to add a remote orgin with: $ git remote add origin https://PATH_TO_GITHUB_REPO.git; git remote -v", )
+
     #if both app and project are provided, continue.
     if(project != None and app != None): 
-        pickup(project=project, do_requirements='yes', do_apache='yes', do_sqlite='no', do_wrap_up='yes')
+        pickup(project=project)
 
 
 def start_project(project_name):
@@ -32,6 +40,9 @@ def start_project(project_name):
    
     local("python %s %s %s --template=%s %s" %(script, command, env.project_name, template, destPath))
     print green("Created new project '%s' in: %s" % (env.project_name, destPath))
+
+    local("cd %s; git init"%env.app_path)
+    print green("Initialized a new git repository in '%s'" % (destPath))
 
     install_requirements()
     config_project_server()
@@ -114,8 +125,8 @@ def ignore_sqlite_file():
     file_name = "django.sqlite"
     file_path = env.app_path + "sqlite/" + file_name
     check_file_exists(file_path, "do_sqlite")
-    check_file_exists(env.app_path+".git/", "do_sqlite")
-    local('cd %s; git update-index --assume-unchanged %s;' %(env.app_path, file_path))
+    check_file_exists(env.git_path, "do_sqlite")
+    local('cd %s; git update-index --assume-unchanged %s;' %(env.app_path, "sqlite/" + file_name))
 
 
 def wrap_up():
