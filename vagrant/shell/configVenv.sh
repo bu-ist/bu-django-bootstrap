@@ -9,8 +9,8 @@
 
 #activate the virtual environement, and install Django and Fabric...
 source /var/apps/djangoapp/venv/bin/activate
-sudo pip install -Iv Django==1.6.1
-sudo pip install -IV Fabric==1.8.0
+sudo pip install -Ivq Django==1.6.1
+sudo pip install -Ivq Fabric==1.8.0
 
 #append the following lines to .profile for expected login behavior
 #makes sure to activate venv on login.
