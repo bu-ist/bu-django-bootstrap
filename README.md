@@ -33,7 +33,6 @@ QUICKSTART
 
     $ cd /PATH/TO/THIS/BOOTSTRAP/vagrant
     $ vagrant up
-    $ vagrant provision
 
 This can take a few minutes while vagrant downloads the VM and installs a few core components on the machine.
 
@@ -59,7 +58,6 @@ that final line will let you know if the remote is reachable and if the remote o
 
     $ cd /PATH/TO/THIS/BOOTSTRAP/vagrant
     $ vagrant up
-    $ vagrant provision
 
 2) Now, you will need to clone the git repository that you will be working on into a folder called repo that matchs the one found in the top level of this Bootstrap. The repo folder already exists in order to satify dependencies within the vagrant VM when you first ran ``vagrant up``. Just make sure to REPLACE the existing repo folder with the new one that will contain the existing project source. 
 
