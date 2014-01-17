@@ -20,6 +20,10 @@ If you don't already have it, install Oracle VirtualBox from https://www.virtual
 
 If you don't already have it, install the latest version (1.2.2) of Vagrant from http://vagrantup.com
 
+I also suggest installing a vagrant guest-additionas updater plugin found at `https://github.com/dotless-de/vagrant-vbguest` as it will make sure that whenever you update virtualbox, the vagrant VM's guest-additions are updated too. You can install these with the following command:
+
+     vagrant plugin install vagrant-vbguest
+
 START A NEW PROJECT:
 =======================
 
