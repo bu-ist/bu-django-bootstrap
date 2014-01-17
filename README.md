@@ -9,7 +9,7 @@ You can always download the latest from GitHub via:
 
 Note that you should DOWNLOAD, not clone, this - unless you actually need to make changes to the Bootstrap itself.
 
-QUICKSTART
+Prerequisites
 ==========
 
 Download and expand the tarball: https://github.com/bu-ist/bu-django-bootstrap/tarball/master
@@ -23,9 +23,11 @@ If you don't already have it, install the latest version (1.2.2) of Vagrant from
 I also suggest installing a vagrant guest-additionas updater plugin found at `https://github.com/dotless-de/vagrant-vbguest` as it will make sure that whenever you update virtualbox, the vagrant VM's guest-additions are updated too. You can install these with the following command:
 
      vagrant plugin install vagrant-vbguest
+     
+QUICKSTART
+==========
 
-START A NEW PROJECT:
-=======================
+###START A NEW PROJECT:
 
 1) Start off with running the following command:
 
@@ -50,8 +52,7 @@ At this point, If all goes well, you're new application should be reachable at h
 that final line will let you know if the remote is reachable and if the remote orgin addition was succesful.
 
 
-CONTINUE AN EXISTING PROJECT:
-================================
+###CONTINUE AN EXISTING PROJECT:
 
 1) Start off with running the following command:
 
@@ -72,8 +73,7 @@ On OSX, GitHub has a great application that allows you to Clone a repo to a fold
 Your Environment is now ready to work on and be reachable via http://localhost:8080 (unless there's some extra vodoo happening on the application end).
 
 
-NOTES
-=====
+###NOTES
 
 A database is required to work with a Django application. We recommend using a temporary sqlite database for local development and with Vagrant. If the Oracle database is needed, you may follow the instructions in Oracle setup section.
 
