@@ -1,7 +1,7 @@
 from fabric.api import env, require, cd, local
 from fabric.contrib import files
 from fabric.colors import red, green, yellow
-from fabric.utils import abort
+from sys import exit
 import os
 
 # This is BU's Fabric library.
@@ -84,7 +84,7 @@ def pickup(project=None, do_requirements='yes', do_apache='yes'):
     """
     if project == None:
         print red('You must provide a project name as: $ fab pickup:project="project_name"')
-        abort()
+        exit(0)
     env.project_name = project
     do_sqlite ='yes' if files.exists(env.app_path + "sqlite/django.sqlite") and files.exists(env.git_path) else 'no'
     do_wrap_up='yes' if files.exists(env.app_path + "sys_requirements.sh") else 'no'
@@ -107,7 +107,7 @@ def install_requirements():
     if not files.exists(file_path):
         print red('Unable to locate: %s') % (file_path)
         print yellow('To skip the installation, add the do_requirements="no" argument.')
-        abort()
+        exit(0)
     local("sudo pip install -r %s" % (file_path))
     print green("Sucessfully installed python packages.");
 
