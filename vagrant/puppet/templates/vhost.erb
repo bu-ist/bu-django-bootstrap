@@ -1,3 +1,5 @@
+WSGIPythonHome /var/apps/djangoapp/venv
+WSGIPythonPath /var/apps/djangoapp/venv/lib/python2.6:/apps/djangoapp/venv/lib/python2.6/site-packages
 <VirtualHost *:80>
     WSGIScriptAlias / /app/apache/vagrant.wsgi
     WSGIDaemonProcess djangoapp processes=<%= processorcount %>
