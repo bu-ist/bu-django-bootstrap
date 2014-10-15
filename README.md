@@ -1,3 +1,5 @@
+#BU-DJANGO-BOOTSTRAP
+
 This is the BU Django base project bootstrap.
 
 It contains an environment and a set of scripts and templates to get
@@ -9,8 +11,7 @@ You can always download the latest from GitHub via:
 
 Note that you should DOWNLOAD, not clone, this - unless you actually need to make changes to the Bootstrap itself.
 
-Prerequisites
-==========
+##Prerequisites
 
 Download and expand the tarball: https://github.com/bu-ist/bu-django-bootstrap/tarball/master
 
@@ -18,8 +19,7 @@ If you prefer ZIP: https://github.com/bu-ist/bu-django-bootstrap/zipball/master
 
 Also, it it highly suggested that you use [virtualenv](http://virtualenv.readthedocs.org/en/latest/index.html) to encapsulate your python packages, and not install them system wide.
 
-QUICKSTART
-==========
+##QUICKSTART
 
 ###START A NEW PROJECT:
 
@@ -75,7 +75,7 @@ Your Environment is now ready to work on and be reachable at http://localhost (u
 
 A database is required to work with a Django application. We recommend using a temporary sqlite database for local development and with Vagrant. If the Oracle database is needed, you may follow the instructions in Oracle setup section.
 
-# SQLite Setup
+## SQLite Setup
 
 The quick_start processes creates a database for the appliation which is located outside the `repo` folder inside the `sqlite` folder. This database file has already been syncronized with the project and is not commited to the git repository setup inside the `repo` folder.
 
@@ -85,12 +85,12 @@ If you accidentally commited database file and want to stop tracking the changes
 
 If quick_start does find this file inside the `repo` folder, it makes sure to run this command in order to not accidentally commit any database updates you make later on in your development cycle.
 
-# Oracle Setup
+## Oracle Setup
 
-## Getting Oracle set up in your BU Django Bootstrap VM
+### Getting Oracle set up in your BU Django Bootstrap VM
 In the future the bootstrap provisioning should be updated to automatically install Oracle dependencies in the vagrant VM to support projects such as this.  But in the meantime, you can follow these steps to use an Oracle backend for this project:
 
-### 1. Download the Oracle instant client libraries
+#### 1. Download the Oracle instant client libraries
 Download the following client libraries from: http://www.oracle.com/technetwork/database/features/instant-client/index-097480.html
 
 Select the correct architecture (at the time of this writing, the base Vagrant VM is Ubuntu 10.04.4 LTS, i686 arch, so Linux x86).
@@ -104,7 +104,7 @@ Download the latest versions (11.2.0.3.0 at time of writing) of the following RP
 * oracle-instantclient-sqlplus (command line client)
 
 
-### 2. Install some additional Ubuntu packages
+#### 2. Install some additional Ubuntu packages
 Ubuntu doesn't natively support installation via RPM's, so you'll need to install [Alien](http://manpages.ubuntu.com/manpages/gutsy/man1/alien.1p.html) for translation.
 
 ```bash
@@ -121,7 +121,7 @@ alien -i oracle-instantclient-devel*.rpm
 ```
 The default install location is `/usr/lib/oracle/<version>/client`.  The rest of these instructures will assume version 11.2.
 
-### 3. Setup Oracle Environment variables
+#### 3. Setup Oracle Environment variables
 Add the following to `/home/vagrant/.profile`:
 
 ```bash
@@ -129,7 +129,7 @@ export ORACLE_HOME=/usr/lib/oracle/11.2/client
 PATH=$PATH:$ORACLE_HOME/bin
 ```
 
-### 4. Add dynamic shared library path
+#### 4. Add dynamic shared library path
 The Python library Django utilizes for Oracle DB backends relies on a dynamic shared library that comes with the client libraries you just installed.
 
 Make sure it can find it by running the following:
@@ -138,7 +138,7 @@ echo /usr/lib/oracle/11.2/client/lib | sudo tee /etc/ld.so.conf.d/oracle.conf
 sudo ldconfig
 ```
 
-### 5. Install the cx_oracle Python package
+#### 5. Install the cx_oracle Python package
 The Oracle DB backend in Django uses the cx_oracle Python package to talk to Oracle databases.
 
 This dependency has been added to the requirements.txt file for this project, but I found that in order to install I had to add the following symlink:
@@ -157,8 +157,8 @@ https://help.ubuntu.com/community/Oracle%20Instant%20Client
 For more information on Django and Oracle:
 https://docs.djangoproject.com/en/dev/ref/databases/#oracle-notes
 
-Vagrant VM (Optional)
-==========
+##Vagrant VM (Optional)
+
 If you don't already have it, install Oracle VirtualBox from https://www.virtualbox.org/wiki/Downloads
 
 If you don't already have it, install the latest version of Vagrant from http://vagrantup.com
@@ -182,8 +182,7 @@ From here on in, Whatever the operation you choose to run, the [quickstart](http
 When all is said and done, the final url for the application should be http://localhost:8080
 
 
-LAST BUT NOT LEAST:
-===================
+##LAST BUT NOT LEAST:
 
 As you begin the project, take 5 minutes to review the Django coding style
 guide found here:
