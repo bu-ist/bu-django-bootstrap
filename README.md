@@ -85,6 +85,8 @@ If you accidentally commited database file and want to stop tracking the changes
     
     $ git update-index --assume-unchanged sqlite/django.sqlite 
 
+If quick_start does find this file inside the `repo` folder, it makes sure to run this command in order to not accidentally commit any database updates you make later on in your development cycle.
+
 # Oracle Setup
 
 ## Getting Oracle set up in your BU Django Bootstrap VM
