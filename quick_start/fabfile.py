@@ -1,5 +1,5 @@
 from fabric.api import env
-
+import os
 # BU's Fabric library
 from fablib_quickstart import *
 
@@ -13,13 +13,30 @@ from fablib_quickstart import *
 # common settings - can be overridden per-environment
 #env.gitsource = '/afs/.bu.edu/cwis/content/git/{{ project_name }}.git'
 
-env.hosts = ['localhost']
-env.user = "vagrant"
-env.password = "vagrant"
-env.path = "/var/apps/djangoapp/"
-env.venv_bin = env.path + "venv/bin/"
-env.pkg_path = env.path + "venv/lib/python2.6/site-packages/"
-env.app_path = env.path + "releases/current/"  # symlink to "/app/repo/"
-env.apps_path = env.app_path + "apps/"
-env.git_path = env.app_path+".git/"
-env.project_name = None
+THIS_PATH = os.path.dirname(os.path.abspath(__file__))
+
+def virtualenv():
+	env.type = 'local'
+	env.hosts = ['localhost']
+	env.path = THIS_PATH.rstrip("/")+"/../"
+	env.venv_path = env.path + "venv/"
+	env.venv_bin = env.venv_path + "bin/"
+	env.pkg_path = env.venv_path + "lib/python2.6/site-packages/"
+	env.repo_path = env.path + "repo/"
+	env.apps_path = env.repo_path + "apps/"
+	env.git_path = env.repo_path+".git/"
+	env.project_name = None
+
+def vagrant():
+	env.type = 'vagrant'
+	env.hosts = ['localhost']
+	env.user = "vagrant"
+	env.password = "vagrant"
+	env.path = "/var/apps/djangoapp/"
+	env.venv_path = env.path + "venv/"
+	env.venv_bin = env.venv_path + "bin/"
+	env.pkg_path = env.venv_path + "lib/python2.6/site-packages/"
+	env.repo_path = env.path + "releases/current/"  # symlink to "/app/repo/"
+	env.apps_path = env.repo_path + "apps/"
+	env.git_path = env.repo_path+".git/"
+	env.project_name = None

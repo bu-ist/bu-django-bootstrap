@@ -16,33 +16,33 @@ Download and expand the tarball: https://github.com/bu-ist/bu-django-bootstrap/t
 
 If you prefer ZIP: https://github.com/bu-ist/bu-django-bootstrap/zipball/master
 
-If you don't already have it, install Oracle VirtualBox from https://www.virtualbox.org/wiki/Downloads
+Also, it it highly suggested that you use [virtualenv](http://virtualenv.readthedocs.org/en/latest/index.html) to encapsulate your python packages, and not install them system wide.
 
-If you don't already have it, install the latest version of Vagrant from http://vagrantup.com
-
-I also suggest installing a vagrant guest-additionas updater plugin found at `https://github.com/dotless-de/vagrant-vbguest` as it will make sure that whenever you update virtualbox, the vagrant VM's guest-additions are updated too. You can install these with the following command:
-
-     vagrant plugin install vagrant-vbguest
-     
 QUICKSTART
 ==========
 
 ###START A NEW PROJECT:
 
-1) Start off with running the following command:
+1) Start by making a copy of the bootstrap and renaming it to whatever you choose to contain your new project. Once this is done, switch into this renamed folder `$ cd \path\to\renamed\bootstrap\folder\`
 
-    $ cd /PATH/TO/THIS/BOOTSTRAP/vagrant
-    $ vagrant up
+1.5A) If you are using vagrant, you can skip this step. If you chose to use `virtualenv`, you can create the virtual environment by running `$ virtualenv venv`. Next we can activate by executing, `source venv/bin/activate`. (This should be run whenever you want to work on your project, as it activates the project specific python packages you've installed in venv.)
 
-This can take a few minutes while vagrant downloads the VM and installs a few core components on the machine.
+1.5B) If you are using vagrant, again feel free to skip this step. 
+with your virtual environment activated, make sure to install the quick_start dependency packages into your virtualenv. Do so by running the following command:
 
-2) To start a new project, run the following commands in a terminal window, where ``<project_name>`` and ``<app_name>`` should be replaced by whatever makes sense to you. (As a rule of thumb, **use underscores for spaces**, **avoid the words 'project' and 'app'**, and make sure to **use only lower case letters**. This makes the job a lot easier for sys-admins down the road!!!)
+    (venv)$ pip install -r quick_start/quick_start_req.txt
 
-    $ vagrant ssh 
+This command installed Fabric and Django into the virtualenv. Fabric is the engine behind the `quick_start` installer which creates the proper application structure, and adds the projects into the repositories accoridngly. Later on, it will allow you to deploy your application if you so choose.
+
+2) To start a new project, run the following commands in a terminal window, where ``<virtualenv|vagrant>`` is either `virtualenv` or `vagrant` and ``<project_name>`` and ``<app_name>`` should be replaced by whatever makes sense to you. (As a rule of thumb, **use underscores for spaces**, **avoid the words 'project' and 'app'**, and make sure to **use only lower case letters**. This makes the job a lot easier for sys-admins down the road!!!)
+
     (venv)$ cd quick_start
-    (venv)$ fab start:project=<project_name>,app=<app_name>
+    (venv)$ fab <virtualenv|vagrant> start:project=<project_name>,app=<app_name>
 
-At this point, If all goes well, you're new application should be reachable at http://localhost:8080. 
+At this point, the project and application have been created for you. All that is left for you to do is run the server (vagrant doesn't need to run the server as it uses an apache .wsgi solution that is constantly running already in the background). For virtualenv, run the server by executing the following commands:
+    
+    (venv)$ cd ../repo
+    (venv)$ python manage.py runserver
 
 3) The Git repository has already been initialized for you. From here on in, ``/app/repo`` is where your code will live. As you may have notice from one of the warnings thrown by the fab start script, all that's left for you to do is add the remote orgin to your local github repository. If you have a github repo. configured, you can do so with the following commands:
 
@@ -54,23 +54,21 @@ that final line will let you know if the remote is reachable and if the remote o
 
 ###CONTINUE AN EXISTING PROJECT:
 
-1) Start off with running the following command:
-
-    $ cd /PATH/TO/THIS/BOOTSTRAP/vagrant
-    $ vagrant up
-
-2) Now, you will need to clone the git repository that you will be working on into a folder called repo that matchs the one found in the top level of this Bootstrap. The repo folder already exists in order to satify dependencies within the vagrant VM when you first ran ``vagrant up``. Just make sure to REPLACE the existing repo folder with the new one that will contain the existing project source. 
+1) Start off my cloning a bootstrapped project into the root folder of this bootatrap (the same level as this README.md file), into a folder named `repo`.
 
 On OSX, GitHub has a great application that allows you to Clone a repo to a folder with just a few clicks, so if you prefer a GUI interface, that's your best bet. Here's a download link: https://central.github.com/mac/latest
 
+2) Make sure the project dependencies are satified by executing the following commands. Where ``<virtualenv|vagrant>`` is either `virtualenv` or `vagrant` and ``<project_name>`` is the name of the Django project. __Note: `project_name` is the name as the folder containing the `settings.py` file and is located in the `repo` folder you just cloned.__
 
-3) Make sure the project dependencies are satified by executing the following commands. Change ``<project_name>`` to read the name of the project that you just cloned from GitHub. This is the same name as the folder containing the settings.py file and will be located in your repo folder.
-
-    $ vagrant ssh
     (venv)$ cd quick_start
-    (venv)$ sudo fab continue:project<project_name>
+    (venv)$ sudo fab <virtualenv|vagrant> continue:project<project_name>
 
-Your Environment is now ready to work on and be reachable via http://localhost:8080 (unless there's some extra vodoo happening on the application end).
+3) Finally, run your application like you would any other django app:
+
+     (venv)$ cd ../repo
+     (venv)$ python manage.py runserver
+
+Your Environment is now ready to work on and be reachable at http://localhost (unless there's some extra vodoo happening on the application end).
 
 
 ###NOTES
@@ -79,11 +77,13 @@ A database is required to work with a Django application. We recommend using a t
 
 # SQLite Setup
 
-If you ran the fab start:project=<project_name>,app=<app_name> command, you might have noticed that the git repo is already set up for you. The sqlite file for the project has also been ignored for you and you should be all set in terms of not tracking any further changes done to it.
+The quick_start processes creates a database for the appliation which is located outside the `repo` folder inside the `sqlite` folder. This database file has already been syncronized with the project and is not commited to the git repository setup inside the `repo` folder.
 
-If by chance something went wrong, and you still need to stop tracking the changes done to a commited database file, you can accomplish this by executing the following command inside your repo folder:
+If you accidentally commited database file and want to stop tracking the changes done to it, you can accomplish this by executing the following command inside your `repo` folder:
     
     $ git update-index --assume-unchanged sqlite/django.sqlite 
+
+If quick_start does find this file inside the `repo` folder, it makes sure to run this command in order to not accidentally commit any database updates you make later on in your development cycle.
 
 # Oracle Setup
 
@@ -156,6 +156,30 @@ https://help.ubuntu.com/community/Oracle%20Instant%20Client
 
 For more information on Django and Oracle:
 https://docs.djangoproject.com/en/dev/ref/databases/#oracle-notes
+
+Vagrant VM (Optional)
+==========
+If you don't already have it, install Oracle VirtualBox from https://www.virtualbox.org/wiki/Downloads
+
+If you don't already have it, install the latest version of Vagrant from http://vagrantup.com
+
+I also suggest installing a vagrant guest-additionas updater plugin found at `https://github.com/dotless-de/vagrant-vbguest` as it will make sure that whenever you update virtualbox, the vagrant VM's guest-additions are updated too. You can install these with the following command:
+
+     vagrant plugin install vagrant-vbguest
+    
+
+###Start new project or Pickup an existing project
+
+1) Start off with running the following command:
+
+    $ cd /PATH/TO/THIS/BOOTSTRAP/vagrant
+    $ vagrant up
+
+2) Now, you will need to clone the git repository that you will be working on into a folder called `repo` that matchs the one found in the top level of this Bootstrap. The repo folder already exists in order to satify dependencies within the vagrant VM when you first ran ``vagrant up``. Just make sure to __REPLACE__ the existing `repo` folder with the new one that will contain the existing project source. 
+
+From here on in, Whatever the operation you choose to run, the [quickstart](https://github.com/bu-ist/bu-django-bootstrap/blob/master/README.md#quickstart) instructions should be sufficient in getting you there. For example, If you need to install dependencies, just remember to run `$ vagrant ssh` prior to completing any django related tasks, then execute the `$ pip install -r requirements.txt command` as before.
+
+When all is said and done, the final url for the application should be http://localhost:8080
 
 
 LAST BUT NOT LEAST:
