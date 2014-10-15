@@ -54,23 +54,21 @@ that final line will let you know if the remote is reachable and if the remote o
 
 ###CONTINUE AN EXISTING PROJECT:
 
-1) Start off with running the following command:
-
-    $ cd /PATH/TO/THIS/BOOTSTRAP/vagrant
-    $ vagrant up
-
-2) Now, you will need to clone the git repository that you will be working on into a folder called repo that matchs the one found in the top level of this Bootstrap. The repo folder already exists in order to satify dependencies within the vagrant VM when you first ran ``vagrant up``. Just make sure to REPLACE the existing repo folder with the new one that will contain the existing project source. 
+1) Start off my cloning a bootstrapped project into the root folder of this bootatrap (the same level as this README.md file), into a folder named `repo`.
 
 On OSX, GitHub has a great application that allows you to Clone a repo to a folder with just a few clicks, so if you prefer a GUI interface, that's your best bet. Here's a download link: https://central.github.com/mac/latest
 
+2) Make sure the project dependencies are satified by executing the following commands. Where ``<virtualenv|vagrant>`` is either `virtualenv` or `vagrant` and ``<project_name>`` is the name of the Django project. __Note: `project_name` is the name as the folder containing the `settings.py` file and is located in the `repo` folder you just cloned.__
 
-3) Make sure the project dependencies are satified by executing the following commands. Change ``<project_name>`` to read the name of the project that you just cloned from GitHub. This is the same name as the folder containing the settings.py file and will be located in your repo folder.
-
-    $ vagrant ssh
     (venv)$ cd quick_start
-    (venv)$ sudo fab continue:project<project_name>
+    (venv)$ sudo fab <virtualenv|vagrant> continue:project<project_name>
 
-Your Environment is now ready to work on and be reachable via http://localhost:8080 (unless there's some extra vodoo happening on the application end).
+3) Finally, run your application like you would any other django app:
+
+     (venv)$ cd ../repo
+     (venv)$ python manage.py runserver
+
+Your Environment is now ready to work on and be reachable at http://localhost (unless there's some extra vodoo happening on the application end).
 
 
 ###NOTES
@@ -169,7 +167,8 @@ I also suggest installing a vagrant guest-additionas updater plugin found at `ht
 
      vagrant plugin install vagrant-vbguest
     
-###Start new Project
+
+###Start new project or Pickup an existing project
 
 1) Start off with running the following command:
 
@@ -179,6 +178,8 @@ I also suggest installing a vagrant guest-additionas updater plugin found at `ht
 2) Now, you will need to clone the git repository that you will be working on into a folder called `repo` that matchs the one found in the top level of this Bootstrap. The repo folder already exists in order to satify dependencies within the vagrant VM when you first ran ``vagrant up``. Just make sure to __REPLACE__ the existing `repo` folder with the new one that will contain the existing project source. 
 
 From here on in, Whatever the operation you choose to run, the [quickstart](https://github.com/bu-ist/bu-django-bootstrap/blob/master/README.md#quickstart) instructions should be sufficient in getting you there. For example, If you need to install dependencies, just remember to run `$ vagrant ssh` prior to completing any django related tasks, then execute the `$ pip install -r requirements.txt command` as before.
+
+When all is said and done, the final url for the application should be http://localhost:8080
 
 
 LAST BUT NOT LEAST:

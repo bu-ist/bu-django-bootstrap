@@ -44,7 +44,11 @@ def start_project(project_name):
     print green("Initialized a new git repository in '%s'" % (destPath))
 
     #move requirements outside of repo folder
-    local("mv %ssqlite/ ../" % env.repo_path)
+    if not os.path.exists("%s../sqlite/" % env.repo_path):
+        local("mv %ssqlite/ ../" % env.repo_path)
+    else:
+        print yellow("An existing sqlite folder is already in place.")
+        local("rm -rf %ssqlite/" % env.repo_path)
 
     install_requirements()
     if env.type == 'vagrant':
