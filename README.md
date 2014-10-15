@@ -16,33 +16,32 @@ Download and expand the tarball: https://github.com/bu-ist/bu-django-bootstrap/t
 
 If you prefer ZIP: https://github.com/bu-ist/bu-django-bootstrap/zipball/master
 
-If you don't already have it, install Oracle VirtualBox from https://www.virtualbox.org/wiki/Downloads
+Also, it it highly suggested that you use [virtualenv](http://virtualenv.readthedocs.org/en/latest/index.html) to encapsulate your python packages, and not install them system wide.
 
-If you don't already have it, install the latest version of Vagrant from http://vagrantup.com
-
-I also suggest installing a vagrant guest-additionas updater plugin found at `https://github.com/dotless-de/vagrant-vbguest` as it will make sure that whenever you update virtualbox, the vagrant VM's guest-additions are updated too. You can install these with the following command:
-
-     vagrant plugin install vagrant-vbguest
-     
 QUICKSTART
 ==========
 
 ###START A NEW PROJECT:
 
-1) Start off with running the following command:
+1) Start by making a copy of the bootstrap and renaming it to whatever you choose to contain your new project. Once this is done, switch into this renamed folder `$ cd \path\to\renamed\bootstrap\folder\`
 
-    $ cd /PATH/TO/THIS/BOOTSTRAP/vagrant
-    $ vagrant up
+1.5A) If you are using vagrant, you can skip this step. If you chose to use `virtualenv`, you can create the virtual environment by running `$ virtualenv venv`. Next we can activate by executing, `source venv/bin/activate`. (This should be run whenever you want to work on your project, as it activates the project specific python packages you've installed in venv.)
 
-This can take a few minutes while vagrant downloads the VM and installs a few core components on the machine.
+1.5B) If you are using vagrant, again feel free to skip this step. Make sure to install the fabric package into your virtualenv.  Do so by running the following command:
+
+    $ pip install fabric
+
+This allows you to run the fabric installer and add the projects into the repository accoridngly. Later on, it will allow you to deploy your application if you so choose.
 
 2) To start a new project, run the following commands in a terminal window, where ``<project_name>`` and ``<app_name>`` should be replaced by whatever makes sense to you. (As a rule of thumb, **use underscores for spaces**, **avoid the words 'project' and 'app'**, and make sure to **use only lower case letters**. This makes the job a lot easier for sys-admins down the road!!!)
 
-    $ vagrant ssh 
     (venv)$ cd quick_start
     (venv)$ fab start:project=<project_name>,app=<app_name>
 
-At this point, If all goes well, you're new application should be reachable at http://localhost:8080. 
+At this point, the project and application have been created for you. All that is left for you to do is run the server (vagrant doesn't need to run the server as it uses an apache .wsgi solution that is constantly running already.). Run the server by executing the following command:
+    
+    (venv)$ touch 
+    (venv)$ python manage.py runserver
 
 3) The Git repository has already been initialized for you. From here on in, ``/app/repo`` is where your code will live. As you may have notice from one of the warnings thrown by the fab start script, all that's left for you to do is add the remote orgin to your local github repository. If you have a github repo. configured, you can do so with the following commands:
 
@@ -156,6 +155,27 @@ https://help.ubuntu.com/community/Oracle%20Instant%20Client
 
 For more information on Django and Oracle:
 https://docs.djangoproject.com/en/dev/ref/databases/#oracle-notes
+
+Vagrant VM (Optional)
+==========
+If you don't already have it, install Oracle VirtualBox from https://www.virtualbox.org/wiki/Downloads
+
+If you don't already have it, install the latest version of Vagrant from http://vagrantup.com
+
+I also suggest installing a vagrant guest-additionas updater plugin found at `https://github.com/dotless-de/vagrant-vbguest` as it will make sure that whenever you update virtualbox, the vagrant VM's guest-additions are updated too. You can install these with the following command:
+
+     vagrant plugin install vagrant-vbguest
+    
+###Start new Project
+
+1) Start off with running the following command:
+
+    $ cd /PATH/TO/THIS/BOOTSTRAP/vagrant
+    $ vagrant up
+
+2) Now, you will need to clone the git repository that you will be working on into a folder called `repo` that matchs the one found in the top level of this Bootstrap. The repo folder already exists in order to satify dependencies within the vagrant VM when you first ran ``vagrant up``. Just make sure to __REPLACE__ the existing `repo` folder with the new one that will contain the existing project source. 
+
+From here on in, Whatever the operation you choose to run, the [quickstart](https://github.com/bu-ist/bu-django-bootstrap/blob/master/README.md#quickstart) instructions should be sufficient in getting you there. For example, If you need to install dependencies, just remember to run `$ vagrant ssh` prior to completing any django related tasks, then execute the `$ pip install -r requirements.txt command` as before.
 
 
 LAST BUT NOT LEAST:

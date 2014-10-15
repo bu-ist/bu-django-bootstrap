@@ -18,7 +18,7 @@ THIS_PATH = os.path.dirname(os.path.abspath(__file__))
 def local():
 	env.type = 'local'
 	env.hosts = ['localhost']
-	env.path = THIS_PATH.rstrip(["/"])+"/../"
+	env.path = THIS_PATH.rstrip("/")+"/../"
 	env.venv_bin = env.path + "venv/bin/"
 	env.pkg_path = env.path + "venv/lib/python2.6/site-packages/"
 	env.repo_path = env.path + "repo/"
