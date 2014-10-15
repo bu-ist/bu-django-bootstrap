@@ -19,8 +19,9 @@ def local():
 	env.type = 'local'
 	env.hosts = ['localhost']
 	env.path = THIS_PATH.rstrip("/")+"/../"
-	env.venv_bin = env.path + "venv/bin/"
-	env.pkg_path = env.path + "venv/lib/python2.6/site-packages/"
+	env.venv_path = env.path + "venv/"
+	env.venv_bin = env.venv_path + "bin/"
+	env.pkg_path = env.venv_path + "lib/python2.6/site-packages/"
 	env.repo_path = env.path + "repo/"
 	env.apps_path = env.repo_path + "apps/"
 	env.git_path = env.repo_path+".git/"
@@ -32,8 +33,9 @@ def vagrant():
 	env.user = "vagrant"
 	env.password = "vagrant"
 	env.path = "/var/apps/djangoapp/"
-	env.venv_bin = env.path + "venv/bin/"
-	env.pkg_path = env.path + "venv/lib/python2.6/site-packages/"
+	env.venv_path = env.path + "venv/"
+	env.venv_bin = env.venv_path + "bin/"
+	env.pkg_path = env.venv_path + "lib/python2.6/site-packages/"
 	env.repo_path = env.path + "releases/current/"  # symlink to "/app/repo/"
 	env.apps_path = env.repo_path + "apps/"
 	env.git_path = env.repo_path+".git/"
