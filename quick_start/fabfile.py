@@ -15,7 +15,7 @@ from fablib_quickstart import *
 
 THIS_PATH = os.path.dirname(os.path.abspath(__file__))
 
-def local():
+def virtualenv():
 	env.type = 'local'
 	env.hosts = ['localhost']
 	env.path = THIS_PATH.rstrip("/")+"/../"

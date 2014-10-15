@@ -43,6 +43,9 @@ def start_project(project_name):
     local("cd %s; git init" % env.repo_path)
     print green("Initialized a new git repository in '%s'" % (destPath))
 
+    #move requirements outside of repo folder
+    local("mv %ssqlite/ ../" % env.repo_path)
+
     install_requirements()
     if env.type == 'vagrant':
         config_project_server()

@@ -27,20 +27,21 @@ QUICKSTART
 
 1.5A) If you are using vagrant, you can skip this step. If you chose to use `virtualenv`, you can create the virtual environment by running `$ virtualenv venv`. Next we can activate by executing, `source venv/bin/activate`. (This should be run whenever you want to work on your project, as it activates the project specific python packages you've installed in venv.)
 
-1.5B) If you are using vagrant, again feel free to skip this step. Make sure to install the fabric package into your virtualenv.  Do so by running the following command:
+1.5B) If you are using vagrant, again feel free to skip this step. 
+with your virtual environment activated, make sure to install the quick_start dependency packages into your virtualenv. Do so by running the following command:
 
-    $ pip install fabric
+    (venv)$ pip install -r quick_start/quick_start_req.txt
 
-This allows you to run the fabric installer and add the projects into the repository accoridngly. Later on, it will allow you to deploy your application if you so choose.
+This command installed Fabric and Django into the virtualenv. Fabric is the engine behind the `quick_start` installer which creates the proper application structure, and adds the projects into the repositories accoridngly. Later on, it will allow you to deploy your application if you so choose.
 
-2) To start a new project, run the following commands in a terminal window, where ``<project_name>`` and ``<app_name>`` should be replaced by whatever makes sense to you. (As a rule of thumb, **use underscores for spaces**, **avoid the words 'project' and 'app'**, and make sure to **use only lower case letters**. This makes the job a lot easier for sys-admins down the road!!!)
+2) To start a new project, run the following commands in a terminal window, where ``<virtualenv|vagrant>`` is either `virtualenv` or `vagrant` and ``<project_name>`` and ``<app_name>`` should be replaced by whatever makes sense to you. (As a rule of thumb, **use underscores for spaces**, **avoid the words 'project' and 'app'**, and make sure to **use only lower case letters**. This makes the job a lot easier for sys-admins down the road!!!)
 
     (venv)$ cd quick_start
-    (venv)$ fab start:project=<project_name>,app=<app_name>
+    (venv)$ fab <virtualenv|vagrant> start:project=<project_name>,app=<app_name>
 
-At this point, the project and application have been created for you. All that is left for you to do is run the server (vagrant doesn't need to run the server as it uses an apache .wsgi solution that is constantly running already.). Run the server by executing the following command:
+At this point, the project and application have been created for you. All that is left for you to do is run the server (vagrant doesn't need to run the server as it uses an apache .wsgi solution that is constantly running already in the background). For virtualenv, run the server by executing the following commands:
     
-    (venv)$ touch 
+    (venv)$ cd ../repo
     (venv)$ python manage.py runserver
 
 3) The Git repository has already been initialized for you. From here on in, ``/app/repo`` is where your code will live. As you may have notice from one of the warnings thrown by the fab start script, all that's left for you to do is add the remote orgin to your local github repository. If you have a github repo. configured, you can do so with the following commands:
@@ -78,9 +79,9 @@ A database is required to work with a Django application. We recommend using a t
 
 # SQLite Setup
 
-If you ran the fab start:project=<project_name>,app=<app_name> command, you might have noticed that the git repo is already set up for you. The sqlite file for the project has also been ignored for you and you should be all set in terms of not tracking any further changes done to it.
+The quick_start processes creates a database for the appliation which is located outside the `repo` folder inside the `sqlite` folder. This database file has already been syncronized with the project and is not commited to the git repository setup inside the `repo` folder.
 
-If by chance something went wrong, and you still need to stop tracking the changes done to a commited database file, you can accomplish this by executing the following command inside your repo folder:
+If you accidentally commited database file and want to stop tracking the changes done to it, you can accomplish this by executing the following command inside your `repo` folder:
     
     $ git update-index --assume-unchanged sqlite/django.sqlite 
 
