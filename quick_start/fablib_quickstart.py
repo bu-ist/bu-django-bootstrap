@@ -36,8 +36,8 @@ def start_project(project_name):
     
     create_repo_folder()
     
-    local("python %s %s %s --template=%s %s" %
-          (script, command, env.project_name, template, destPath))
+    local("python %s %s --template=%s %s %s" %
+          (script, command, template, env.project_name, destPath))
     print green("Created new project '%s' in: %s" % (env.project_name, destPath))
 
     local("cd %s; git init" % env.repo_path)
@@ -69,8 +69,8 @@ def start_app(app_name=None):
     command = "startapp"
     template = env.path+"quick_start/templates/app_template"
 
-    local("python %s %s %s --template=%s %s" %
-          (script, command, app_name, template, destPath))
+    local("python %s %s --template=%s %s %s" %
+          (script, command, template, app_name, destPath))
     print green("Started new app in: %s" % destPath)
 
     if(env.project_name != None):
