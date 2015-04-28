@@ -32,7 +32,7 @@ with your virtual environment activated, make sure to install the quick_start de
 
     (venv)$ pip install -r quick_start/quick_start_req.txt
 
-This command installed Fabric and Django into the virtualenv. Fabric is the engine behind the `quick_start` installer which creates the proper application structure, and adds the projects into the repositories accordingly. Later on, it will allow you to deploy your application if you so choose.
+This command installed Fabric and Django into the virtualenv. Fabric is the engine behind the `quick_start` installer which creates the proper application structure, and adds the projects into the repositories accoridngly. Later on, it will allow you to deploy your application if you so choose.
 
 2) To start a new project, run the following commands in a terminal window, where ``<virtualenv|vagrant>`` is either `virtualenv` or `vagrant` and ``<project_name>`` and ``<app_name>`` should be replaced by whatever makes sense to you. (As a rule of thumb, **use underscores for spaces**, **avoid the words 'project' and 'app'**, and make sure to **use only lower case letters**. This makes the job a lot easier for sys-admins down the road!!!)
 
@@ -159,9 +159,9 @@ https://docs.djangoproject.com/en/dev/ref/databases/#oracle-notes
 
 ##Vagrant VM (Optional)
 
-If you don't already have it, install Oracle VirtualBox from https://www.virtualbox.org/wiki/Downloads
-
-If you don't already have it, install the latest version of Vagrant from http://vagrantup.com
+###Prerequisits:
+Oracle VirtualBox from https://www.virtualbox.org/wiki/Downloads    
+The latest version of Vagrant from http://vagrantup.com
 
 I also suggest installing a vagrant guest-additionas updater plugin found at `https://github.com/dotless-de/vagrant-vbguest` as it will make sure that whenever you update virtualbox, the vagrant VM's guest-additions are updated too. You can install these with the following command:
 
