@@ -159,9 +159,10 @@ https://docs.djangoproject.com/en/dev/ref/databases/#oracle-notes
 
 Vagrant VM (Optional)
 ==========
-If you don't already have it, install Oracle VirtualBox from https://www.virtualbox.org/wiki/Downloads
+Prerequisits:
 
-If you don't already have it, install the latest version of Vagrant from http://vagrantup.com
+   Oracle VirtualBox from https://www.virtualbox.org/wiki/Downloads    
+   The latest version of Vagrant from http://vagrantup.com
 
 I also suggest installing a vagrant guest-additionas updater plugin found at `https://github.com/dotless-de/vagrant-vbguest` as it will make sure that whenever you update virtualbox, the vagrant VM's guest-additions are updated too. You can install these with the following command:
 
