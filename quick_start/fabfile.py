@@ -18,6 +18,7 @@ THIS_PATH = os.path.dirname(os.path.abspath(__file__))
 def virtualenv():
 	env.type = 'local'
 	env.hosts = ['localhost']
+	env.port = '8000'
 	env.path = THIS_PATH.rstrip("/")+"/../"
 	env.venv_path = env.path + "venv/"
 	env.venv_bin = env.venv_path + "bin/"
@@ -30,6 +31,7 @@ def virtualenv():
 def vagrant():
 	env.type = 'vagrant'
 	env.hosts = ['localhost']
+	env.port = '8080'
 	env.user = "vagrant"
 	env.password = "vagrant"
 	env.path = "/var/apps/djangoapp/"

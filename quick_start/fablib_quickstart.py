@@ -110,7 +110,7 @@ def pickup(project=None, do_requirements='yes', do_apache='no'):
     if do_wrap_up == 'yes':
         local('sh %ssys_requirements.sh;' % env.repo_path)
         print green("Installed additional sys_requirements.sh")
-    print green("setup complete! visit http://localhost:8080 to see the site.")
+    print green("setup complete! visit http://localhost:%s to see the site." % (env.port,))
 
 def create_repo_folder():
     if not os.path.exists(env.repo_path):
