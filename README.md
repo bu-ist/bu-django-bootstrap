@@ -54,21 +54,31 @@ That final line will let you know if the remote is reachable and if the remote o
 
 ###CONTINUE AN EXISTING PROJECT:
 
-1) Start off my cloning a bootstrapped project into the root folder of this bootatrap (the same level as this README.md file), into a folder named `repo`.
+1. Within the expanded bu-django-bootstrap directory (pre-requisites above), clone your project into a directory named repo. So the cloned project should be at the same level as this `README.md` file.
 
-On OSX, GitHub has a great application that allows you to Clone a repo to a folder with just a few clicks, so if you prefer a GUI interface, that's your best bet. Here's a download link: https://central.github.com/mac/latest
+2. Add virtualenv.
 
-2) Make sure the project dependencies are satified by executing the following commands. Where ``<virtualenv|vagrant>`` is either `virtualenv` or `vagrant` and ``<project_name>`` is the name of the Django project. __Note: `project_name` is the name as the folder containing the `settings.py` file and is located in the `repo` folder you just cloned.__
+    ```bash
+    virtualenv venv
+    source venv/bin/activate
+    ```
 
-    (venv)$ cd quick_start
-    (venv)$ sudo fab <virtualenv|vagrant> continue:project<project_name>
+3. Make sure the project dependencies are satified by executing the following commands. Where ``<virtualenv|vagrant>`` is either `virtualenv` or `vagrant` and ``<project_name>`` is the name of the Django project. __Note: `project_name` is the name as the folder containing the `settings.py` file and is located in the `repo` folder you just cloned.__
 
-3) Finally, run your application like you would any other django app:
+    ```
+    cd quick_start
+    pip install -r quick_start_req.txt
+    fab <virtualenv|vagrant> pickup:<project_name>
+    ```
 
-     (venv)$ cd ../repo
-     (venv)$ python manage.py runserver
+4. Finally, run your application like you would any other django app:
 
-Your Environment is now ready to work on and be reachable at http://localhost (unless there's some extra vodoo happening on the application end).
+    ```bash
+    cd ../repo
+    python manage.py runserver
+    ```
+
+Your Environment is now ready to work on and be reachable at http://localhost:port (unless there's some extra voodoo happening on the application end).
 
 
 ###NOTES
