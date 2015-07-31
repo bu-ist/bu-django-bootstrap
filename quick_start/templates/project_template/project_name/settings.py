@@ -5,6 +5,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
+    ('BU Django Admins', 'django-mgrs-l@bu.edu'),
     # ('Your Name', 'your_email@example.com'),
 )
 
