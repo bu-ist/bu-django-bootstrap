@@ -36,8 +36,8 @@ def start_project(project_name):
     
     create_repo_folder()
     
-    local("python %s %s %s --template=%s %s" %
-          (script, command, env.project_name, template, destPath))
+    local("python %s %s --template=%s %s %s" %
+          (script, command, template, env.project_name, destPath))
     print green("Created new project '%s' in: %s" % (env.project_name, destPath))
 
     local("cd %s; git init" % env.repo_path)
